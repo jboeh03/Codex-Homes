@@ -8,6 +8,7 @@ const updateSchema = z.object({
   dimensions: z.record(z.string(), z.unknown()).optional(),
   selections: z.record(z.string(), z.string()).optional(),
   estimate: z.record(z.string(), z.unknown()).optional(),
+  photoUrls: z.array(z.string().url()).max(12).optional(),
   notes: z.string().max(2000).optional(),
 });
 
@@ -56,6 +57,7 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
   if (parsed.data.dimensions !== undefined) patch.dimensions = parsed.data.dimensions as DesignerSessionUpdate["dimensions"];
   if (parsed.data.selections !== undefined) patch.selections = parsed.data.selections as DesignerSessionUpdate["selections"];
   if (parsed.data.estimate !== undefined) patch.estimate = parsed.data.estimate as DesignerSessionUpdate["estimate"];
+  if (parsed.data.photoUrls !== undefined) patch.photo_urls = parsed.data.photoUrls;
   if (parsed.data.notes !== undefined) patch.notes = parsed.data.notes;
 
   const supabase = await createSupabaseServerClient();

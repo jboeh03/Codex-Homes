@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, Loader2, Save, Sparkles } from "lucide-react";
+import { ArrowRight, Camera, Check, Loader2, Save, Sparkles, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn, formatCurrency, formatCurrencyRange } from "@/lib/utils";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import type { MaterialCategory, MaterialRow, RoomType } from "@/lib/db.types";
 import {
   calculateEstimate,
@@ -25,9 +26,13 @@ export function DesignerTool({ materials }: Props) {
   const [roomType, setRoomType] = useState<RoomType>("kitchen");
   const [dimensions, setDimensions] = useState<RoomDimensions>(defaultDimensions.kitchen);
   const [selections, setSelections] = useState<Selections>(() => pickDefaults(materials));
-  const [activeCategory, setActiveCategory] = useState<MaterialCategory>("cabinet");
+  const [activeCategory, setActiveCategory] = useState<MaterialCategory>("floor");
+  const [photoUrls, setPhotoUrls] = useState<string[]>([]);
+  const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const firstSaveDone = useRef(false);
 
@@ -69,7 +74,7 @@ export function DesignerTool({ materials }: Props) {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomType, dimensions, selections, estimate.rangeLow, estimate.rangeHigh]);
+  }, [roomType, dimensions, selections, estimate.rangeLow, estimate.rangeHigh, photoUrls]);
 
   async function persist() {
     setSaveState("saving");
@@ -79,6 +84,7 @@ export function DesignerTool({ materials }: Props) {
         dimensions: dimensions as unknown as Record<string, unknown>,
         selections: selections as Record<string, string>,
         estimate: estimate as unknown as Record<string, unknown>,
+        photoUrls,
       };
       if (!sessionId) {
         const res = await fetch("/api/designer/sessions", {
@@ -113,6 +119,38 @@ export function DesignerTool({ materials }: Props) {
 
   function selectMaterial(category: MaterialCategory, id: string) {
     setSelections((s) => ({ ...s, [category]: id }));
+  }
+
+  async function handleFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setUploadState("uploading");
+    setUploadError(null);
+    const supabase = createSupabaseBrowserClient();
+    const uploaded: string[] = [];
+    try {
+      for (const file of Array.from(files).slice(0, 6)) {
+        if (file.size > 10 * 1024 * 1024) {
+          throw new Error(`${file.name} is over 10 MB`);
+        }
+        const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+        const key = `${crypto.randomUUID()}.${ext}`;
+        const { error } = await supabase.storage
+          .from("designer-uploads")
+          .upload(key, file, { cacheControl: "31536000", upsert: false });
+        if (error) throw error;
+        const { data: pub } = supabase.storage.from("designer-uploads").getPublicUrl(key);
+        uploaded.push(pub.publicUrl);
+      }
+      setPhotoUrls((prev) => [...prev, ...uploaded].slice(0, 12));
+      setUploadState("idle");
+    } catch (e) {
+      setUploadState("error");
+      setUploadError(e instanceof Error ? e.message : "Upload failed");
+    }
+  }
+
+  function removePhoto(url: string) {
+    setPhotoUrls((prev) => prev.filter((p) => p !== url));
   }
 
   const activeOptions = byCategory.get(activeCategory) ?? [];
@@ -171,10 +209,14 @@ export function DesignerTool({ materials }: Props) {
                       {mat ? mat.name : "Not selected"}
                     </p>
                   </div>
-                  {mat?.color_hex && (
+                  {mat && (
                     <span
-                      className="h-5 w-5 shrink-0 rounded-full border border-black/10"
-                      style={{ background: mat.color_hex }}
+                      className="h-5 w-5 shrink-0 rounded-full border border-black/10 bg-cover bg-center"
+                      style={{
+                        background: mat.image_url
+                          ? `center/cover no-repeat url("${mat.image_url}"), ${mat.color_hex || "#E5E9EC"}`
+                          : mat.color_hex || "#E5E9EC",
+                      }}
                     />
                   )}
                 </button>
@@ -201,11 +243,74 @@ export function DesignerTool({ materials }: Props) {
             Floor: {(dimensions.lengthFt * dimensions.widthFt).toFixed(0)} sf
           </p>
         </div>
+
+        <div className="rounded-xl border border-[--color-border] bg-white p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+            Your room photos
+          </p>
+          <p className="mt-1 text-xs text-[--color-brand-darkgray]">
+            Snap or upload up to 12. We&apos;ll use them for the preview and bring them to the consult.
+          </p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+            multiple
+            className="hidden"
+            onChange={(e) => {
+              void handleFiles(e.target.files);
+              e.target.value = "";
+            }}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="md"
+            className="mt-3 w-full gap-2"
+            disabled={uploadState === "uploading" || photoUrls.length >= 12}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            {uploadState === "uploading" ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Uploading…
+              </>
+            ) : (
+              <>
+                <Camera className="h-4 w-4" /> Add photos
+              </>
+            )}
+          </Button>
+          {uploadError && (
+            <p className="mt-2 text-xs text-red-600">{uploadError}</p>
+          )}
+          {photoUrls.length > 0 && (
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {photoUrls.map((url) => (
+                <div key={url} className="group relative aspect-square overflow-hidden rounded-md border border-[--color-border]">
+                  <img src={url} alt="Room" className="h-full w-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(url)}
+                    aria-label="Remove photo"
+                    className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 transition-opacity hover:opacity-100 focus:opacity-100"
+                  >
+                    <Trash2 className="h-4 w-4 text-white" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </aside>
 
       {/* Middle: material picker + room preview */}
       <section className="space-y-6">
-        <RoomPreview selections={selections} materials={materials} dimensions={dimensions} />
+        <RoomPreview
+          selections={selections}
+          materials={materials}
+          dimensions={dimensions}
+          photoUrls={photoUrls}
+        />
 
         <div className="rounded-xl border border-[--color-border] bg-white p-5">
           <div className="flex items-end justify-between gap-3">
@@ -242,21 +347,30 @@ export function DesignerTool({ materials }: Props) {
                     )}
                   >
                     <span
-                      className="h-12 w-12 shrink-0 rounded-md border border-black/10"
-                      style={{ background: m.color_hex || "#E5E9EC" }}
+                      className="h-16 w-16 shrink-0 overflow-hidden rounded-md border border-black/10"
+                      style={{
+                        background: m.image_url
+                          ? `center/cover no-repeat url("${m.image_url}"), ${m.color_hex || "#E5E9EC"}`
+                          : m.color_hex || "#E5E9EC",
+                      }}
                     />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2">
                         <span className="truncate font-medium text-[--color-foreground]">
                           {m.name}
                         </span>
-                        {selected && <Check className="h-4 w-4 text-[--color-primary]" />}
+                        {selected && <Check className="h-4 w-4 shrink-0 text-[--color-primary]" />}
                       </span>
                       <span className="block truncate text-xs text-[--color-brand-darkgray]">
                         {m.supplier}
                         {m.supplier && " · "}
                         {formatCurrency(Number(m.unit_cost))}/{m.unit}
                       </span>
+                      {m.sku && (
+                        <span className="mt-0.5 block truncate font-mono text-[10px] text-[--color-brand-lightgray]">
+                          SKU {m.sku}
+                        </span>
+                      )}
                     </span>
                   </button>
                 );
@@ -401,10 +515,12 @@ function RoomPreview({
   selections,
   materials,
   dimensions,
+  photoUrls,
 }: {
   selections: Selections;
   materials: MaterialRow[];
   dimensions: RoomDimensions;
+  photoUrls: string[];
 }) {
   const get = (cat: MaterialCategory) => {
     const id = selections[cat];
@@ -416,11 +532,84 @@ function RoomPreview({
   const counter = get("countertop");
   const backsplash = get("backsplash");
 
+  const heroPhoto = photoUrls[0];
+  const chipMaterials = (
+    [
+      ["Floor", floor],
+      ["Cabinets", cabinet],
+      ["Counters", counter],
+      ["Backsplash", backsplash],
+    ] as const
+  ).filter(([, m]) => !!m) as Array<[string, MaterialRow]>;
+
+  if (heroPhoto) {
+    return (
+      <div className="overflow-hidden rounded-xl border border-[--color-border] bg-white">
+        <div className="flex items-center justify-between border-b border-[--color-border] px-5 py-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+            Your room · with your finishes
+          </p>
+          <p className="text-xs text-[--color-brand-darkgray]">
+            {dimensions.lengthFt}&apos; × {dimensions.widthFt}&apos;
+          </p>
+        </div>
+        <div className="relative h-[360px] w-full overflow-hidden bg-black/5">
+          <img
+            src={heroPhoto}
+            alt="Your room"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          {/* Soft bottom shade so chip text reads */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/65 via-black/30 to-transparent" />
+          <div className="absolute inset-x-3 bottom-3 flex flex-wrap gap-2">
+            {chipMaterials.map(([label, m]) => (
+              <div
+                key={label}
+                className="flex items-center gap-2 rounded-full bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur"
+              >
+                <span
+                  className="h-5 w-5 rounded-full border border-black/10"
+                  style={{
+                    background: m.image_url
+                      ? `center/cover no-repeat url("${m.image_url}"), ${m.color_hex || "#E5E9EC"}`
+                      : m.color_hex || "#E5E9EC",
+                  }}
+                />
+                <span className="text-[11px] font-medium text-[--color-foreground]">
+                  <span className="text-[--color-brand-darkgray]">{label}: </span>
+                  {m.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        {photoUrls.length > 1 && (
+          <div className="flex gap-2 overflow-x-auto border-t border-[--color-border] p-3">
+            {photoUrls.slice(1).map((url) => (
+              <img
+                key={url}
+                src={url}
+                alt="Room"
+                className="h-16 w-24 shrink-0 rounded border border-[--color-border] object-cover"
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // No photo yet — synthetic illustrated preview (uses product textures where available)
+  const bgFor = (m: MaterialRow | null, fallback: string) =>
+    m?.image_url
+      ? `center/cover no-repeat url("${m.image_url}"), ${m.color_hex || fallback}`
+      : m?.color_hex || fallback;
+
   return (
     <div className="overflow-hidden rounded-xl border border-[--color-border] bg-white">
       <div className="flex items-center justify-between border-b border-[--color-border] px-5 py-3">
         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
-          Your room preview
+          Room preview · add a photo for a real view
         </p>
         <p className="text-xs text-[--color-brand-darkgray]">
           {dimensions.lengthFt}&apos; × {dimensions.widthFt}&apos;
@@ -428,29 +617,26 @@ function RoomPreview({
       </div>
       <div
         className="relative h-[280px] w-full"
-        style={{ background: floor?.color_hex ?? "#E5E9EC" }}
+        style={{ background: bgFor(floor, "#E5E9EC") }}
         aria-label="Room preview"
       >
-        {/* Back wall + backsplash */}
         <div
           className="absolute inset-x-0 top-0 h-[55%]"
           style={{ background: "linear-gradient(180deg, #ffffff 0%, #F4F6F8 100%)" }}
         />
         <div
           className="absolute inset-x-[8%] top-[28%] h-[12%] rounded-sm border border-black/10"
-          style={{ background: backsplash?.color_hex ?? "#F4F6F8" }}
+          style={{ background: bgFor(backsplash, "#F4F6F8") }}
           title={backsplash?.name ?? "Backsplash"}
         />
-        {/* Counter */}
         <div
           className="absolute inset-x-[6%] top-[40%] h-[8%] rounded-sm border border-black/10 shadow-sm"
-          style={{ background: counter?.color_hex ?? "#D7D2CB" }}
+          style={{ background: bgFor(counter, "#D7D2CB") }}
           title={counter?.name ?? "Counter"}
         />
-        {/* Cabinet base */}
         <div
           className="absolute inset-x-[6%] top-[48%] h-[24%] rounded-sm border border-black/10"
-          style={{ background: cabinet?.color_hex ?? "#C8A977" }}
+          style={{ background: bgFor(cabinet, "#C8A977") }}
           title={cabinet?.name ?? "Cabinets"}
         >
           <div className="grid h-full grid-cols-6 gap-1 p-1">
@@ -459,7 +645,6 @@ function RoomPreview({
             ))}
           </div>
         </div>
-        {/* Floor label */}
         <div className="absolute bottom-2 right-3 rounded bg-black/60 px-2 py-1 text-[10px] uppercase tracking-wider text-white">
           {floor?.name ?? "Floor"}
         </div>

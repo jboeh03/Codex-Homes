@@ -8,6 +8,7 @@ const createSchema = z.object({
   dimensions: z.record(z.string(), z.unknown()).optional().default({}),
   selections: z.record(z.string(), z.string()).optional().default({}),
   estimate: z.record(z.string(), z.unknown()).optional().default({}),
+  photoUrls: z.array(z.string().url()).max(12).optional().default([]),
   notes: z.string().max(2000).optional().default(""),
 });
 
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
       dimensions: parsed.data.dimensions as Json,
       selections: parsed.data.selections as Json,
       estimate: parsed.data.estimate as Json,
+      photo_urls: parsed.data.photoUrls,
       notes: parsed.data.notes,
     })
     .select("id")
