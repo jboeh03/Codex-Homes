@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Camera, Check, Loader2, Save, Sparkles, Trash2 } from "lucide-react";
+import { ArrowRight, Camera, Check, Loader2, Save, Sparkles, Trash2, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn, formatCurrency, formatCurrencyRange } from "@/lib/utils";
@@ -30,6 +30,15 @@ export function DesignerTool({ materials }: Props) {
   const [photoUrls, setPhotoUrls] = useState<string[]>([]);
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [render, setRender] = useState<{
+    id: string;
+    status: string;
+    outputUrl: string;
+    error?: string;
+    sourcePhotoUrl: string;
+    selectionsKey: string;
+  } | null>(null);
+  const [renderError, setRenderError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -152,6 +161,86 @@ export function DesignerTool({ materials }: Props) {
   function removePhoto(url: string) {
     setPhotoUrls((prev) => prev.filter((p) => p !== url));
   }
+
+  // Build a stable client-side key of the inputs that determine a render
+  const currentSelectionsKey = useMemo(() => {
+    return Object.keys(selections)
+      .sort()
+      .map((k) => `${k}:${selections[k as MaterialCategory] ?? ""}`)
+      .join("|");
+  }, [selections]);
+
+  const renderIsStale =
+    render &&
+    (render.sourcePhotoUrl !== photoUrls[0] ||
+      render.selectionsKey !== currentSelectionsKey);
+
+  async function generateAiPreview() {
+    setRenderError(null);
+    if (!sessionId || photoUrls.length === 0) return;
+    // Ensure session exists before we POST
+    try {
+      const res = await fetch("/api/designer/renders", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          photoUrl: photoUrls[0],
+          roomType,
+          selections,
+        }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error ?? `Render failed (${res.status})`);
+      }
+      const data = (await res.json()) as {
+        id: string;
+        status: string;
+        outputUrl: string;
+      };
+      setRender({
+        id: data.id,
+        status: data.status,
+        outputUrl: data.outputUrl,
+        sourcePhotoUrl: photoUrls[0],
+        selectionsKey: currentSelectionsKey,
+      });
+    } catch (e) {
+      setRenderError(e instanceof Error ? e.message : "Render failed");
+    }
+  }
+
+  // Poll render status while it's in flight
+  useEffect(() => {
+    if (!render) return;
+    if (render.status !== "starting" && render.status !== "processing") return;
+    let cancelled = false;
+    const timer = setInterval(async () => {
+      if (cancelled) return;
+      try {
+        const res = await fetch(`/api/designer/renders/${render.id}`);
+        if (!res.ok) return;
+        const data = (await res.json()) as {
+          status: string;
+          outputUrl: string;
+          error?: string;
+        };
+        if (cancelled) return;
+        setRender((prev) =>
+          prev && prev.id === render.id
+            ? { ...prev, status: data.status, outputUrl: data.outputUrl, error: data.error }
+            : prev,
+        );
+      } catch {
+        /* keep polling */
+      }
+    }, 3000);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, [render]);
 
   const activeOptions = byCategory.get(activeCategory) ?? [];
   const activeMeta = designerCategories.find((c) => c.id === activeCategory);
@@ -310,6 +399,11 @@ export function DesignerTool({ materials }: Props) {
           materials={materials}
           dimensions={dimensions}
           photoUrls={photoUrls}
+          render={render}
+          renderError={renderError}
+          renderIsStale={!!renderIsStale}
+          canGenerate={!!sessionId && photoUrls.length > 0}
+          onGenerate={generateAiPreview}
         />
 
         <div className="rounded-xl border border-[--color-border] bg-white p-5">
@@ -516,11 +610,21 @@ function RoomPreview({
   materials,
   dimensions,
   photoUrls,
+  render,
+  renderError,
+  renderIsStale,
+  canGenerate,
+  onGenerate,
 }: {
   selections: Selections;
   materials: MaterialRow[];
   dimensions: RoomDimensions;
   photoUrls: string[];
+  render: { id: string; status: string; outputUrl: string; error?: string } | null;
+  renderError: string | null;
+  renderIsStale: boolean;
+  canGenerate: boolean;
+  onGenerate: () => void;
 }) {
   const get = (cat: MaterialCategory) => {
     const id = selections[cat];
@@ -543,46 +647,110 @@ function RoomPreview({
   ).filter(([, m]) => !!m) as Array<[string, MaterialRow]>;
 
   if (heroPhoto) {
+    const aiBusy = render?.status === "starting" || render?.status === "processing";
+    const aiDone = render?.status === "succeeded" && render.outputUrl;
     return (
       <div className="overflow-hidden rounded-xl border border-[--color-border] bg-white">
-        <div className="flex items-center justify-between border-b border-[--color-border] px-5 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[--color-border] px-5 py-3">
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
             Your room · with your finishes
           </p>
-          <p className="text-xs text-[--color-brand-darkgray]">
-            {dimensions.lengthFt}&apos; × {dimensions.widthFt}&apos;
-          </p>
-        </div>
-        <div className="relative h-[360px] w-full overflow-hidden bg-black/5">
-          <img
-            src={heroPhoto}
-            alt="Your room"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          {/* Soft bottom shade so chip text reads */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/65 via-black/30 to-transparent" />
-          <div className="absolute inset-x-3 bottom-3 flex flex-wrap gap-2">
-            {chipMaterials.map(([label, m]) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 rounded-full bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur"
-              >
-                <span
-                  className="h-5 w-5 rounded-full border border-black/10"
-                  style={{
-                    background: m.image_url
-                      ? `center/cover no-repeat url("${m.image_url}"), ${m.color_hex || "#E5E9EC"}`
-                      : m.color_hex || "#E5E9EC",
-                  }}
-                />
-                <span className="text-[11px] font-medium text-[--color-foreground]">
-                  <span className="text-[--color-brand-darkgray]">{label}: </span>
-                  {m.name}
-                </span>
-              </div>
-            ))}
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-[--color-brand-darkgray]">
+              {dimensions.lengthFt}&apos; × {dimensions.widthFt}&apos;
+            </p>
+            <Button
+              type="button"
+              size="sm"
+              variant={aiDone && !renderIsStale ? "outline" : "primary"}
+              disabled={!canGenerate || aiBusy}
+              onClick={onGenerate}
+              className="gap-1.5"
+            >
+              {aiBusy ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Rendering…
+                </>
+              ) : aiDone && !renderIsStale ? (
+                <>
+                  <Wand2 className="h-3.5 w-3.5" />
+                  Re-render
+                </>
+              ) : (
+                <>
+                  <Wand2 className="h-3.5 w-3.5" />
+                  {aiDone ? "Update AI preview" : "Generate AI preview"}
+                </>
+              )}
+            </Button>
           </div>
         </div>
+
+        <div className={cn("grid gap-px bg-[--color-border]", aiDone && "grid-cols-2")}>
+          <div className="relative h-[360px] w-full overflow-hidden bg-black/5">
+            <img
+              src={heroPhoto}
+              alt="Your room"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/65 via-black/30 to-transparent" />
+            <div className="absolute inset-x-3 bottom-3 flex flex-wrap gap-2">
+              {chipMaterials.map(([label, m]) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 rounded-full bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur"
+                >
+                  <span
+                    className="h-5 w-5 rounded-full border border-black/10"
+                    style={{
+                      background: m.image_url
+                        ? `center/cover no-repeat url("${m.image_url}"), ${m.color_hex || "#E5E9EC"}`
+                        : m.color_hex || "#E5E9EC",
+                    }}
+                  />
+                  <span className="text-[11px] font-medium text-[--color-foreground]">
+                    <span className="text-[--color-brand-darkgray]">{label}: </span>
+                    {m.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="absolute left-3 top-3 rounded bg-black/60 px-2 py-1 text-[10px] uppercase tracking-wider text-white">
+              Original
+            </div>
+          </div>
+
+          {aiDone && (
+            <div className="relative h-[360px] w-full overflow-hidden bg-black/5">
+              <img
+                src={render.outputUrl}
+                alt="AI preview of your remodel"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute left-3 top-3 rounded bg-[--color-primary] px-2 py-1 text-[10px] uppercase tracking-wider text-white">
+                AI preview · not a final render
+              </div>
+            </div>
+          )}
+        </div>
+
+        {(renderError || render?.status === "failed" || renderIsStale) && (
+          <div className="border-t border-[--color-border] px-5 py-3 text-xs">
+            {renderError && <p className="text-red-600">{renderError}</p>}
+            {!renderError && render?.status === "failed" && (
+              <p className="text-red-600">
+                AI render failed{render.error ? `: ${render.error}` : ""}. Try again.
+              </p>
+            )}
+            {!renderError && renderIsStale && render?.status === "succeeded" && (
+              <p className="text-[--color-brand-darkgray]">
+                Selections changed since this render. Click <strong>Update AI preview</strong> to regenerate.
+              </p>
+            )}
+          </div>
+        )}
+
         {photoUrls.length > 1 && (
           <div className="flex gap-2 overflow-x-auto border-t border-[--color-border] p-3">
             {photoUrls.slice(1).map((url) => (

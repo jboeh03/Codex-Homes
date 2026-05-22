@@ -12,6 +12,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      designer_renders: {
+        Row: {
+          created_at: string
+          error: string
+          id: string
+          output_url: string
+          prompt: string
+          replicate_id: string
+          selections_hash: string
+          session_id: string
+          source_photo_url: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string
+          id?: string
+          output_url?: string
+          prompt?: string
+          replicate_id?: string
+          selections_hash: string
+          session_id: string
+          source_photo_url: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          error?: string
+          id?: string
+          output_url?: string
+          prompt?: string
+          replicate_id?: string
+          selections_hash?: string
+          session_id?: string
+          source_photo_url?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "designer_renders_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "designer_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       designer_sessions: {
         Row: {
           created_at: string
@@ -269,6 +319,8 @@ export type Database = {
   }
 }
 
+export type DesignerRenderRow = Database["public"]["Tables"]["designer_renders"]["Row"]
+export type DesignerRenderInsert = Database["public"]["Tables"]["designer_renders"]["Insert"]
 export type MaterialRow = Database["public"]["Tables"]["materials"]["Row"]
 export type DesignerSessionRow = Database["public"]["Tables"]["designer_sessions"]["Row"]
 export type DesignerSessionInsert = Database["public"]["Tables"]["designer_sessions"]["Insert"]
