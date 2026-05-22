@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,8 +50,19 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const next = () => setStep((s) => Math.min(4, (s + 1) as Step));
-  const back = () => setStep((s) => Math.max(0, (s - 1) as Step));
+  const searchParams = useSearchParams();
+  const designerSessionId = useMemo<string | null>(() => {
+    const fromQuery = searchParams.get("session");
+    if (fromQuery && /^[0-9a-f-]{36}$/i.test(fromQuery)) return fromQuery;
+    if (typeof window !== "undefined") {
+      const stored = window.localStorage.getItem("codex-designer-session-id");
+      if (stored && /^[0-9a-f-]{36}$/i.test(stored)) return stored;
+    }
+    return null;
+  }, [searchParams]);
+
+  const next = () => setStep((s) => Math.min(4, s + 1) as Step);
+  const back = () => setStep((s) => Math.max(0, s - 1) as Step);
 
   const canAdvance = () => {
     switch (step) {
@@ -81,7 +93,7 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...data, source }),
+        body: JSON.stringify({ ...data, source, designerSessionId: designerSessionId ?? undefined }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));

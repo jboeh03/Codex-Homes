@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { LeadForm } from "@/components/forms/lead-form";
 
@@ -30,9 +31,17 @@ export default function GetEstimatePage() {
           </ul>
         </div>
         <div className="lg:col-span-3">
-          <LeadForm source="get-estimate" />
+          <Suspense fallback={<LeadFormFallback />}>
+            <LeadForm source="get-estimate" />
+          </Suspense>
         </div>
       </div>
     </div>
+  );
+}
+
+function LeadFormFallback() {
+  return (
+    <div className="h-[480px] animate-pulse rounded-xl border border-[--color-border] bg-white" />
   );
 }
