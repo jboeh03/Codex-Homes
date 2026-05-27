@@ -3,7 +3,7 @@ import { Logo } from "@/components/brand/logo";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[--color-border] bg-[--color-brand-black] text-white">
+    <footer className="bg-[--color-ink] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div>
           <Logo variant="horizontal-white" className="h-12 w-auto" />

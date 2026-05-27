@@ -1,58 +1,113 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, Phone, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/services", label: "Services" },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/designer", label: "Designer Tool" },
+  { href: "/designer", label: "Designer" },
   { href: "/process", label: "Process" },
   { href: "/about", label: "About" },
 ];
 
 export function SiteHeader() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.75);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Over the dark hero, render light. Everywhere else, render solid.
+  const solid = !isHome || scrolled || open;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[--color-border] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center" aria-label="Codex Homes home">
-          <Logo variant="horizontal" className="h-10 w-auto md:h-12" />
+    <header
+      className={cn(
+        "top-0 z-50 w-full transition-all duration-500",
+        isHome ? "fixed" : "sticky",
+        solid
+          ? "border-b border-[--color-border] bg-[--color-background]/85 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      )}
+    >
+      <div className="mx-auto flex h-20 max-w-[1400px] items-center justify-between px-5 sm:px-8 lg:px-12">
+        <Link
+          href="/"
+          className="flex items-center"
+          aria-label="Codex Homes home"
+          data-cursor
+        >
+          <Logo
+            variant={solid ? "horizontal" : "horizontal-white"}
+            className="h-9 w-auto md:h-10"
+          />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
+        <nav
+          className="hidden items-center gap-10 md:flex"
+          aria-label="Main"
+        >
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-[--color-foreground] transition-colors hover:text-[--color-primary]"
+              data-cursor
+              className={cn(
+                "link-underline text-[0.8rem] uppercase tracking-[0.2em] transition-colors",
+                solid
+                  ? "text-[--color-foreground]/80 hover:text-[--color-foreground]"
+                  : "text-white/80 hover:text-white"
+              )}
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <Button asChild variant="ghost" size="sm" className="gap-2">
-            <a href="tel:+15135550123" aria-label="Call Codex Homes">
-              <Phone className="h-4 w-4" />
-              (513) 555-0123
-            </a>
-          </Button>
-          <Button asChild size="md">
-            <Link href="/get-estimate">Free Estimate</Link>
-          </Button>
+        <div className="hidden items-center gap-6 md:flex">
+          <a
+            href="tel:+15135550123"
+            data-cursor
+            className={cn(
+              "text-[0.8rem] tracking-wide transition-colors",
+              solid ? "text-[--color-foreground]/70 hover:text-[--color-foreground]" : "text-white/70 hover:text-white"
+            )}
+          >
+            (513) 555-0123
+          </a>
+          <Link
+            href="/get-estimate"
+            data-cursor
+            className={cn(
+              "group relative overflow-hidden rounded-full border px-6 py-2.5 text-[0.72rem] uppercase tracking-[0.2em] transition-colors duration-300",
+              solid
+                ? "border-[--color-brand-darkblue] text-[--color-brand-darkblue] hover:bg-[--color-brand-darkblue] hover:text-white"
+                : "border-white/60 text-white hover:bg-white hover:text-[--color-ink]"
+            )}
+          >
+            Free Estimate
+          </Link>
         </div>
 
         <button
           type="button"
-          className="rounded-md p-2 md:hidden"
+          className={cn(
+            "rounded-md p-2 md:hidden",
+            solid ? "text-[--color-foreground]" : "text-white"
+          )}
           aria-label="Toggle navigation"
+          aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -62,29 +117,34 @@ export function SiteHeader() {
       <div
         className={cn(
           "md:hidden",
-          open ? "block border-t border-[--color-border]" : "hidden"
+          open ? "block border-t border-[--color-border] bg-[--color-background]" : "hidden"
         )}
       >
-        <div className="space-y-1 px-4 py-3">
+        <div className="space-y-1 px-5 py-4">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="block rounded-md px-3 py-2 text-base font-medium text-[--color-foreground] hover:bg-[--color-muted]"
+              className="block py-3 text-sm uppercase tracking-[0.18em] text-[--color-foreground]"
             >
               {item.label}
             </Link>
           ))}
-          <div className="flex gap-2 pt-2">
-            <Button asChild variant="outline" size="md" className="flex-1">
-              <a href="tel:+15135550123">Call</a>
-            </Button>
-            <Button asChild size="md" className="flex-1">
-              <Link href="/get-estimate" onClick={() => setOpen(false)}>
-                Free Estimate
-              </Link>
-            </Button>
+          <div className="flex gap-3 pt-3">
+            <a
+              href="tel:+15135550123"
+              className="flex-1 rounded-full border border-[--color-border] py-3 text-center text-xs uppercase tracking-[0.18em]"
+            >
+              Call
+            </a>
+            <Link
+              href="/get-estimate"
+              onClick={() => setOpen(false)}
+              className="flex-1 rounded-full bg-[--color-brand-darkblue] py-3 text-center text-xs uppercase tracking-[0.18em] text-white"
+            >
+              Free Estimate
+            </Link>
           </div>
         </div>
       </div>
