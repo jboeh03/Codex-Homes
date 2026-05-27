@@ -7,8 +7,8 @@ interface LogoProps {
 }
 
 const sources: Record<NonNullable<LogoProps["variant"]>, string> = {
-  horizontal: "/brand/codex-lockup-horizontal.svg",
-  "horizontal-white": "/brand/codex-lockup-horizontal-white.svg",
+  horizontal: "/brand/codex-logo-horizontal.png",
+  "horizontal-white": "/brand/codex-logo-horizontal-white.png",
   monogram: "/brand/codex-ch-monogram.svg",
 };
 

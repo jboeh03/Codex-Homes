@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
 /* ---------- Codex Homes brand tokens ----------
-   Sourced from /brand/Codex-Homes-Brandsheet-2021.pdf
-   Primary: Dark Blue #003A70
-   Display: Cormorant Garamond (high-contrast editorial serif)
-   UI/body: Inter
+   Sourced from /brand/Codex_Homes_Brandsheet2021.pdf
+   Palette: the seven brand colors on white.
+   Logo + display font: Times Roman (per brand sheet). UI/body: Inter.
 ------------------------------------------------ */
 
 @theme inline {
-  /* Brand palette */
+  /* Brand palette (exact, from the brand sheet) */
   --color-brand-black: #101820;
   --color-brand-paleblue: #c6dae7;
   --color-brand-lightblue: #5e8ab4;
@@ -17,20 +16,17 @@
   --color-brand-lightgray: #98a4ae;
   --color-brand-darkgray: #5b6770;
 
-  /* Cinematic neutrals */
-  --color-ink: #0b0e12;
-  --color-ink-soft: #14181e;
-  --color-ivory: #f5f2ea;
-  --color-bone: #e9e3d7;
-  --color-sand: #d9d1c1;
+  /* Dark section grounds, drawn from the palette: Black + Dark Blue */
+  --color-ink: #101820;
+  --color-ink-soft: #003a70;
 
-  /* Semantic tokens */
-  --color-background: #f5f2ea;
+  /* Semantic tokens — white ground, cool brand neutrals */
+  --color-background: #ffffff;
   --color-foreground: #101820;
-  --color-muted: #efeae0;
+  --color-muted: #f4f6f8;
   --color-muted-foreground: #5b6770;
-  --color-border: #ddd6c8;
-  --color-input: #ddd6c8;
+  --color-border: #e5e9ec;
+  --color-input: #e5e9ec;
   --color-ring: #003a70;
   --color-primary: #003a70;
   --color-primary-foreground: #ffffff;
@@ -43,11 +39,11 @@
   --color-card: #ffffff;
   --color-card-foreground: #101820;
 
-  /* Typography */
+  /* Typography — Times Roman is the brand face */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-display), "Times New Roman", Georgia, serif;
-  --font-display: var(--font-display), "Times New Roman", Georgia, serif;
+  --font-serif: "Times New Roman", "Times", Georgia, serif;
+  --font-display: "Times New Roman", "Times", Georgia, serif;
 
   /* Radii */
   --radius-sm: 0.25rem;
@@ -57,7 +53,7 @@
 }
 
 :root {
-  --background: #f5f2ea;
+  --background: #ffffff;
   --foreground: #101820;
 }
 
@@ -90,8 +86,8 @@ html.lenis body {
 /* ---------- Typography ---------- */
 .font-display {
   font-family: var(--font-display);
-  font-weight: 300;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 .font-serif {
@@ -100,9 +96,9 @@ html.lenis body {
 
 .display-hero {
   font-family: var(--font-display);
-  font-weight: 300;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
 }
 
 .eyebrow {
