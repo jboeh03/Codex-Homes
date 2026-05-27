@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { findService, services, type ServiceSlug } from "@/lib/services";
+import { serviceImage } from "@/lib/service-images";
 import { formatCurrencyRange } from "@/lib/utils";
+import { Reveal } from "@/components/motion/reveal";
+import { CinematicImage } from "@/components/motion/cinematic-image";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -30,87 +31,114 @@ export default async function ServicePage({ params }: PageProps) {
   if (!service) notFound();
 
   return (
-    <div>
-      <section className="bg-blueprint">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <Link href="/services" className="text-sm text-[--color-primary] hover:underline">
+    <div className="bg-[--color-background]">
+      <section className="mx-auto max-w-[1400px] px-5 pb-12 pt-32 sm:px-8 lg:px-12 lg:pt-40">
+        <Reveal as="div">
+          <Link
+            href="/services"
+            data-cursor
+            className="link-underline text-xs uppercase tracking-[0.2em] text-[--color-brand-darkblue]"
+          >
             ← All services
           </Link>
-          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.18em] text-[--color-primary]">
-            {service.shortTitle} in Cincinnati
-          </p>
-          <h1 className="mt-2 font-display text-5xl tracking-tight text-[--color-brand-black] sm:text-6xl">
+        </Reveal>
+        <Reveal as="p" className="eyebrow mb-6 mt-10 text-[--color-brand-darkgray]">
+          {service.shortTitle} in Cincinnati
+        </Reveal>
+        <Reveal>
+          <h1 className="max-w-4xl font-display text-[clamp(2.6rem,7vw,6rem)] font-light leading-[1.0] tracking-tight">
             {service.title}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-[--color-brand-darkgray]">
-            {service.longBlurb}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-[--color-secondary] px-3 py-1 text-sm font-medium text-[--color-primary]">
-              Typical range · {formatCurrencyRange(service.priceRange[0], service.priceRange[1])}
+        </Reveal>
+        <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+          {service.longBlurb}
+        </Reveal>
+        <Reveal delay={0.1} className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.18em] text-[--color-brand-darkgray]">
+          <span>
+            Typical range ·{" "}
+            <span className="text-[--color-brand-darkblue]">
+              {formatCurrencyRange(service.priceRange[0], service.priceRange[1])}
             </span>
-            <span className="rounded-full border border-[--color-border] bg-white px-3 py-1 text-sm text-[--color-brand-darkgray]">
-              {service.durationWeeks[0]}–{service.durationWeeks[1]} weeks
-            </span>
-          </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg">
-              <Link href="/get-estimate">
-                Get a free in-home estimate
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/designer">Design it yourself first</Link>
-            </Button>
-          </div>
-        </div>
+          </span>
+          <span>
+            Timeline · {service.durationWeeks[0]}–{service.durationWeeks[1]} weeks
+          </span>
+        </Reveal>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-2">
+      <section className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+        <CinematicImage
+          src={serviceImage[service.slug]}
+          alt={`${service.title} by Codex Homes`}
+          className="aspect-[16/9] w-full rounded-xl"
+          sizes="(max-width: 1400px) 100vw, 1400px"
+        />
+      </section>
+
+      <section className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
           <div>
-            <h2 className="font-display text-3xl tracking-tight text-[--color-brand-black]">
+            <Reveal as="h2" className="font-display text-3xl tracking-tight lg:text-4xl">
               What&apos;s included
-            </h2>
-            <ul className="mt-6 space-y-3">
+            </Reveal>
+            <Reveal stagger={0.07} className="mt-8">
               {service.scope.map((line) => (
-                <li key={line} className="flex items-start gap-2 text-[--color-brand-darkgray]">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 text-[--color-primary]" />
+                <div
+                  key={line}
+                  className="flex items-start gap-4 border-b border-[--color-border] py-4 text-[--color-brand-darkgray]"
+                >
+                  <span className="mt-0.5 text-[--color-brand-darkblue]">—</span>
                   <span>{line}</span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </Reveal>
           </div>
           <div>
-            <h2 className="font-display text-3xl tracking-tight text-[--color-brand-black]">
+            <Reveal as="h2" className="font-display text-3xl tracking-tight lg:text-4xl">
               Highlights
-            </h2>
-            <ul className="mt-6 space-y-3">
+            </Reveal>
+            <Reveal stagger={0.07} className="mt-8">
               {service.highlights.map((line) => (
-                <li key={line} className="flex items-start gap-2 text-[--color-brand-darkgray]">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 text-[--color-primary]" />
+                <div
+                  key={line}
+                  className="flex items-start gap-4 border-b border-[--color-border] py-4 text-[--color-brand-darkgray]"
+                >
+                  <span className="mt-0.5 text-[--color-brand-darkblue]">—</span>
                   <span>{line}</span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      <section className="bg-[--color-primary] text-white">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-          <div>
-            <h2 className="font-display text-3xl tracking-tight sm:text-4xl">
-              Ready to talk through your {service.shortTitle.toLowerCase()} project?
+      <section className="relative overflow-hidden bg-[--color-ink] text-white">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
+          <Reveal>
+            <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
+              Ready to talk through your{" "}
+              {service.shortTitle.toLowerCase()} project?
             </h2>
-            <p className="mt-2 text-white/80">
+            <p className="mt-4 max-w-md text-white/65">
               No-pressure consult, walked-through scope, written quote.
             </p>
-          </div>
-          <Button asChild size="lg" variant="secondary">
-            <Link href="/get-estimate">Book a free estimate</Link>
-          </Button>
+          </Reveal>
+          <Reveal delay={0.08} className="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <Link
+              href="/get-estimate"
+              data-cursor
+              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+            >
+              Book a free estimate
+            </Link>
+            <Link
+              href="/designer"
+              data-cursor
+              className="rounded-full border border-white/40 px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10"
+            >
+              Design it yourself first
+            </Link>
+          </Reveal>
         </div>
       </section>
     </div>

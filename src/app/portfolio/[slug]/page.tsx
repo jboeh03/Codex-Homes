@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { Reveal } from "@/components/motion/reveal";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -11,52 +10,63 @@ interface PageProps {
 
 export const dynamic = "force-dynamic";
 
+async function loadProject(slug: string) {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase
+      .from("portfolio_projects")
+      .select("*")
+      .eq("slug", slug)
+      .eq("is_published", true)
+      .maybeSingle();
+    return data ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const supabase = await createSupabaseServerClient();
-  const { data } = await supabase
-    .from("portfolio_projects")
-    .select("title, summary")
-    .eq("slug", slug)
-    .maybeSingle();
+  const data = await loadProject(slug);
   if (!data) return { title: "Portfolio" };
   return { title: data.title, description: data.summary };
 }
 
 export default async function PortfolioProjectPage({ params }: PageProps) {
   const { slug } = await params;
-  const supabase = await createSupabaseServerClient();
-  const { data } = await supabase
-    .from("portfolio_projects")
-    .select("*")
-    .eq("slug", slug)
-    .eq("is_published", true)
-    .maybeSingle();
-
+  const data = await loadProject(slug);
   if (!data) notFound();
 
   const gallery = Array.isArray(data.gallery) ? (data.gallery as unknown[]) : [];
 
   return (
-    <div>
-      <section className="bg-blueprint">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <Link href="/portfolio" className="text-sm text-[--color-primary] hover:underline">
+    <div className="bg-[--color-background]">
+      <section className="mx-auto max-w-[1400px] px-5 pb-12 pt-32 sm:px-8 lg:px-12 lg:pt-40">
+        <Reveal as="div">
+          <Link
+            href="/portfolio"
+            data-cursor
+            className="link-underline text-xs uppercase tracking-[0.2em] text-[--color-brand-darkblue]"
+          >
             ← All projects
           </Link>
-          <p className="mt-6 text-xs uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
-            {data.neighborhood || "Cincinnati"} · {data.year ?? "—"} ·{" "}
-            {data.duration_weeks ? `${data.duration_weeks} weeks` : "—"}
-          </p>
-          <h1 className="mt-2 font-display text-5xl tracking-tight text-[--color-brand-black] sm:text-6xl">
+        </Reveal>
+        <Reveal as="p" className="mb-6 mt-10 text-xs uppercase tracking-[0.18em] text-[--color-brand-darkgray]">
+          {data.neighborhood || "Cincinnati"} · {data.year ?? "—"} ·{" "}
+          {data.duration_weeks ? `${data.duration_weeks} weeks` : "—"}
+        </Reveal>
+        <Reveal>
+          <h1 className="max-w-4xl font-display text-[clamp(2.6rem,7vw,6rem)] font-light leading-[1.0] tracking-tight">
             {data.title}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-[--color-brand-darkgray]">{data.summary}</p>
-        </div>
+        </Reveal>
+        <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+          {data.summary}
+        </Reveal>
       </section>
 
       {data.hero_image && (
-        <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
           <div
             className="aspect-[16/9] w-full rounded-xl bg-[--color-muted]"
             style={{ background: `center/cover no-repeat url(${data.hero_image})` }}
@@ -64,17 +74,17 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
         </section>
       )}
 
-      <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
         {data.body.split("\n\n").map((para, i) => (
-          <p key={i} className="mb-4 text-[--color-brand-darkgray]">
+          <Reveal as="p" key={i} className="mb-6 text-lg leading-relaxed text-[--color-brand-darkgray]">
             {para}
-          </p>
+          </Reveal>
         ))}
       </section>
 
       {gallery.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="mx-auto max-w-[1400px] px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {gallery.map((src, i) => (
               <div
                 key={i}
@@ -86,22 +96,26 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
         </section>
       )}
 
-      <section className="bg-[--color-primary] text-white">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-          <div>
-            <h2 className="font-display text-3xl tracking-tight sm:text-4xl">
+      <section className="relative overflow-hidden bg-[--color-ink] text-white">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
+          <Reveal>
+            <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
               Like the look? Try it in your room.
             </h2>
-            <p className="mt-2 text-white/80">
-              Use the Designer Tool to test these finishes in your own space — and see the range.
+            <p className="mt-4 max-w-md text-white/65">
+              Use the Designer Tool to test these finishes in your own space — and
+              see the range.
             </p>
-          </div>
-          <Button asChild size="lg" variant="secondary">
-            <Link href="/designer">
+          </Reveal>
+          <Reveal delay={0.08}>
+            <Link
+              href="/designer"
+              data-cursor
+              className="inline-block rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+            >
               Open the Designer Tool
-              <ArrowRight className="h-4 w-4" />
             </Link>
-          </Button>
+          </Reveal>
         </div>
       </section>
     </div>

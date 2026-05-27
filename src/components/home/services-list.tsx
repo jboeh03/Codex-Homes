@@ -4,18 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { services } from "@/lib/services";
+import { serviceImage } from "@/lib/service-images";
 import { cn } from "@/lib/utils";
 
-const imageFor: Record<string, string> = {
-  kitchen: "/portfolio/portfolio-2.webp",
-  bathroom: "/portfolio/portfolio-3.webp",
-  basement: "/portfolio/portfolio-4.webp",
-  "whole-home": "/portfolio/portfolio-2.webp",
-  additions: "/portfolio/portfolio-4.webp",
-  outdoor: "/portfolio/portfolio-1.webp",
-};
-
-const shown = services.filter((s) => s.slug in imageFor);
+const shown = services.filter((s) => s.slug !== "handyman").slice(0, 6);
 
 export function ServicesList() {
   const [active, setActive] = useState<number | null>(null);
@@ -70,7 +62,7 @@ export function ServicesList() {
         {shown.map((s, i) => (
           <Image
             key={s.slug}
-            src={imageFor[s.slug]}
+            src={serviceImage[s.slug]}
             alt=""
             fill
             sizes="360px"

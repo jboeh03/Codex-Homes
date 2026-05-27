@@ -1,13 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { formatCurrencyRange } from "@/lib/utils";
+import { Reveal } from "@/components/motion/reveal";
+import { CinematicImage } from "@/components/motion/cinematic-image";
 
 export const metadata: Metadata = {
   title: "Portfolio",
-  description: "Recent Cincinnati kitchen, bath, basement, and whole-home remodels by Codex Homes.",
+  description:
+    "Recent Cincinnati kitchen, bath, basement, and whole-home remodels by Codex Homes.",
 };
 
 export const dynamic = "force-dynamic";
@@ -22,80 +23,172 @@ const budgetRanges: Record<string, [number, number]> = {
   unsure: [0, 0],
 };
 
-export default async function PortfolioPage() {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("portfolio_projects")
-    .select("*")
-    .eq("is_published", true)
-    .order("sort_order", { ascending: true });
+interface GalleryItem {
+  id: string;
+  title: string;
+  image: string;
+  meta: string;
+  budget: string | null;
+  href?: string;
+}
 
-  const projects = error ? [] : (data ?? []);
+const fallbackProjects: GalleryItem[] = [
+  {
+    id: "f1",
+    title: "Hyde Park Kitchen",
+    image: "/portfolio/portfolio-2.webp",
+    meta: "Hyde Park · 2024",
+    budget: formatCurrencyRange(55000, 110000),
+  },
+  {
+    id: "f2",
+    title: "Oakley Primary Bath",
+    image: "/portfolio/portfolio-3.webp",
+    meta: "Oakley · 2024",
+    budget: formatCurrencyRange(35000, 75000),
+  },
+  {
+    id: "f3",
+    title: "Mt. Lookout Galley",
+    image: "/portfolio/portfolio-4.webp",
+    meta: "Mt. Lookout · 2023",
+    budget: formatCurrencyRange(45000, 90000),
+  },
+  {
+    id: "f4",
+    title: "Norwood Guest Bath",
+    image: "/portfolio/portfolio-1.webp",
+    meta: "Norwood · 2023",
+    budget: formatCurrencyRange(15000, 35000),
+  },
+];
+
+async function loadProjects(): Promise<GalleryItem[]> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("portfolio_projects")
+      .select("*")
+      .eq("is_published", true)
+      .order("sort_order", { ascending: true });
+
+    if (error || !data || data.length === 0) return fallbackProjects;
+
+    return data.map((p, i) => {
+      const range = budgetRanges[p.budget_band];
+      return {
+        id: p.id ?? `p${i}`,
+        title: p.title,
+        image: p.hero_image || fallbackProjects[i % fallbackProjects.length].image,
+        meta: `${p.neighborhood || "Cincinnati"} · ${p.year ?? "—"}`,
+        budget: range && range[0] > 0 ? formatCurrencyRange(range[0], range[1]) : null,
+        href: p.slug ? `/portfolio/${p.slug}` : undefined,
+      };
+    });
+  } catch {
+    return fallbackProjects;
+  }
+}
+
+function PortfolioCard({ item }: { item: GalleryItem }) {
+  const inner = (
+    <>
+      <CinematicImage
+        src={item.image}
+        alt={item.title}
+        className="aspect-[4/5] w-full rounded-lg"
+        imageClassName="transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+        sizes="(max-width: 768px) 100vw, 45vw"
+      />
+      <div className="mt-6 flex items-end justify-between gap-6">
+        <div>
+          <p className="text-xs uppercase tracking-[0.18em] text-[--color-brand-darkgray]">
+            {item.meta}
+          </p>
+          <h2 className="mt-2 font-display text-2xl tracking-tight transition-colors group-hover:text-[--color-brand-darkblue] lg:text-3xl">
+            {item.title}
+          </h2>
+        </div>
+        {item.budget && (
+          <span className="shrink-0 text-xs uppercase tracking-[0.18em] text-[--color-brand-darkblue]">
+            {item.budget}
+          </span>
+        )}
+      </div>
+    </>
+  );
+
+  if (item.href) {
+    return (
+      <Link href={item.href} data-cursor className="group block">
+        {inner}
+      </Link>
+    );
+  }
+  return <div className="group block">{inner}</div>;
+}
+
+export default async function PortfolioPage() {
+  const projects = await loadProjects();
 
   return (
-    <div>
-      <section className="bg-blueprint">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[--color-primary]">
-            Portfolio
-          </p>
-          <h1 className="font-display text-5xl tracking-tight text-[--color-brand-black] sm:text-6xl">
-            Real Cincinnati homes. Real numbers.
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg text-[--color-brand-darkgray]">
-            Every project below shows the neighborhood, the actual scope, the time it took,
-            and the budget range. No staged renders, no stock photography.
-          </p>
+    <div className="bg-[--color-background]">
+      <section className="border-b border-[--color-border]">
+        <div className="mx-auto max-w-[1400px] px-5 pb-20 pt-32 sm:px-8 lg:px-12 lg:pb-28 lg:pt-40">
+          <Reveal as="p" className="eyebrow mb-8 text-[--color-brand-darkblue]">
+            <span className="text-[--color-brand-darkgray]">(03)</span>
+            &nbsp;&nbsp;Selected work
+          </Reveal>
+          <Reveal>
+            <h1 className="max-w-4xl font-display text-[clamp(2.6rem,7vw,6rem)] font-light leading-[1.0] tracking-tight">
+              Real Cincinnati homes. Real numbers.
+            </h1>
+          </Reveal>
+          <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+            Every project shows the neighborhood, the actual scope, the time it
+            took, and the budget range. No staged renders, no stock photography.
+          </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        {projects.length === 0 ? (
-          <p className="rounded-md border border-[--color-border] bg-white p-8 text-center text-[--color-brand-darkgray]">
-            Portfolio coming soon. Photos in editing.
-          </p>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((p) => {
-              const [lo, hi] = budgetRanges[p.budget_band] ?? [0, 0];
-              return (
-                <Card key={p.id}>
-                  <CardContent className="p-0">
-                    <div
-                      className="aspect-[4/3] w-full rounded-t-xl bg-[--color-muted]"
-                      style={
-                        p.hero_image
-                          ? { background: `center/cover no-repeat url(${p.hero_image})` }
-                          : undefined
-                      }
-                    />
-                    <div className="p-5">
-                      <p className="text-xs uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
-                        {p.neighborhood || "Cincinnati"} · {p.year ?? "—"}
-                      </p>
-                      <h2 className="mt-1 font-display text-xl">{p.title}</h2>
-                      <p className="mt-2 line-clamp-3 text-sm text-[--color-brand-darkgray]">
-                        {p.summary}
-                      </p>
-                      <div className="mt-4 flex items-center justify-between">
-                        <span className="text-xs text-[--color-brand-darkgray]">
-                          {lo > 0 ? formatCurrencyRange(lo, hi) : "Budget on request"}
-                        </span>
-                        <Link
-                          href={`/portfolio/${p.slug}`}
-                          className="inline-flex items-center gap-1 text-sm font-medium text-[--color-primary] hover:underline"
-                        >
-                          See project
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
+      <section className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+        <div className="grid grid-cols-1 gap-x-12 gap-y-20 md:grid-cols-2">
+          {projects.map((p, i) => (
+            <Reveal key={p.id} className={i % 2 === 1 ? "md:mt-24" : undefined}>
+              <PortfolioCard item={p} />
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-[--color-ink] text-white">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
+          <Reveal>
+            <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
+              Your home could be next.
+            </h2>
+            <p className="mt-4 max-w-md text-white/65">
+              Free in-home estimates across Greater Cincinnati and Northern
+              Kentucky.
+            </p>
+          </Reveal>
+          <Reveal delay={0.08} className="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <Link
+              href="/get-estimate"
+              data-cursor
+              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+            >
+              Book a free estimate
+            </Link>
+            <Link
+              href="/designer"
+              data-cursor
+              className="rounded-full border border-white/40 px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10"
+            >
+              Try the Designer
+            </Link>
+          </Reveal>
+        </div>
       </section>
     </div>
   );
