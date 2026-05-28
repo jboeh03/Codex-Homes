@@ -32,13 +32,13 @@ export default function ServiceAreasPage() {
     <div>
       <section className="bg-blueprint">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[--color-primary]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)]">
             Service Areas
           </p>
-          <h1 className="font-display text-5xl tracking-tight text-[--color-brand-black] sm:text-6xl">
+          <h1 className="font-display text-5xl tracking-tight text-[var(--color-brand-black)] sm:text-6xl">
             Greater Cincinnati &amp; Northern Kentucky.
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-[--color-brand-darkgray]">
+          <p className="mt-4 max-w-2xl text-lg text-[var(--color-brand-darkgray)]">
             We&apos;re based in the city and travel within about 45 minutes for full
             remodels. Not sure if we cover your zip? Send it and we&apos;ll tell you.
           </p>
@@ -50,17 +50,17 @@ export default function ServiceAreasPage() {
           {areas.map(([area, zip]) => (
             <div
               key={area}
-              className="flex items-baseline justify-between rounded-md border border-[--color-border] bg-white px-4 py-3"
+              className="flex items-baseline justify-between rounded-md border border-[var(--color-border)] bg-white px-4 py-3"
             >
-              <span className="font-medium text-[--color-foreground]">{area}</span>
-              <span className="font-mono text-xs text-[--color-brand-darkgray]">{zip}</span>
+              <span className="font-medium text-[var(--color-foreground)]">{area}</span>
+              <span className="font-mono text-xs text-[var(--color-brand-darkgray)]">{zip}</span>
             </div>
           ))}
         </div>
 
-        <div className="mt-12 rounded-xl border border-[--color-border] bg-white p-6">
+        <div className="mt-12 rounded-xl border border-[var(--color-border)] bg-white p-6">
           <h2 className="font-display text-2xl">Not on the list?</h2>
-          <p className="mt-2 text-[--color-brand-darkgray]">
+          <p className="mt-2 text-[var(--color-brand-darkgray)]">
             For smaller jobs we&apos;ll usually go further. Send us a quick note and a zip and we&apos;ll
             tell you straight up whether we&apos;re a fit.
           </p>

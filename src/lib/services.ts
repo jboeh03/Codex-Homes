@@ -22,7 +22,7 @@ export interface Service {
 export const services: Service[] = [
   {
     slug: "kitchen",
-    title: "Kitchen Remodeling",
+    title: "Kitchen Renovation",
     shortTitle: "Kitchens",
     blurb:
       "Custom kitchens designed for how Cincinnati families actually live — open layouts, durable finishes, smart storage.",
@@ -49,7 +49,7 @@ export const services: Service[] = [
   },
   {
     slug: "bathroom",
-    title: "Bathroom Remodeling",
+    title: "Bath & Spa Renovation",
     shortTitle: "Baths",
     blurb:
       "Spa-like primary baths and small powder-room refreshes. Walk-in showers, freestanding tubs, heated floors — all built to handle real water and real life.",
@@ -74,7 +74,7 @@ export const services: Service[] = [
   },
   {
     slug: "basement",
-    title: "Basement Finishing",
+    title: "Lower-Level Living",
     shortTitle: "Basements",
     blurb:
       "Family rooms, home theaters, gyms, in-law suites — basements are usually your cheapest square footage. We finish them so they don't feel like basements.",
@@ -99,7 +99,7 @@ export const services: Service[] = [
   },
   {
     slug: "whole-home",
-    title: "Whole-Home Renovations",
+    title: "Whole-Home Renovation",
     shortTitle: "Whole-Home",
     blurb:
       "From dated 1970s split-levels in Anderson to historic homes in Hyde Park — we take entire houses down to what's worth keeping and rebuild around it.",
@@ -146,7 +146,7 @@ export const services: Service[] = [
   },
   {
     slug: "outdoor",
-    title: "Decks, Patios & Outdoor",
+    title: "Outdoor Living",
     shortTitle: "Outdoor",
     blurb:
       "Composite and hardwood decks, covered patios, outdoor kitchens, and pergolas built to outlast Cincinnati winters.",
@@ -170,7 +170,7 @@ export const services: Service[] = [
   },
   {
     slug: "handyman",
-    title: "Handyman & Small Projects",
+    title: "Estate Maintenance",
     shortTitle: "Handyman",
     blurb:
       "Punch lists, repairs, drywall, trim, fixture swaps, and the dozen small things you've been meaning to get to. Same crew quality, smaller scope.",

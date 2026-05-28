@@ -2,5 +2,29 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "enabledPlugins": {
     "claude-code-setup@claude-plugins-official": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FP=$(jq -r '.tool_input.file_path // empty' 2>/dev/null); case \"$FP\" in *.env|*.env.*|*/pnpm-lock.yaml|*/db.types.ts) printf 'Blocked: %s is protected (env file / lockfile / generated Supabase types). Regenerate via '\\''supabase gen types'\\'' or '\\''pnpm install'\\'' instead of hand-editing.\\n' \"$FP\" >&2; exit 2 ;; esac"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FP=$(jq -r '.tool_input.file_path // empty' 2>/dev/null); case \"$FP\" in *.ts|*.tsx) cd \"$CLAUDE_PROJECT_DIR\" && pnpm typecheck 2>&1 | tail -10 || true ;; esac"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
-/* ---------- Codex Homes brand tokens ----------
+/* ============================================================
+   Codex Homes — Editorial luxury, brand palette.
+   Layout, typography, and motion follow the atelier direction;
+   colors stay strictly on the brand guide (white ground, navy
+   foreground, brand blues + grays).
+
    Sourced from /brand/Codex_Homes_Brandsheet2021.pdf
-   Palette: the seven brand colors on white.
-   Logo + display font: Times Roman (per brand sheet). UI/body: Inter.
------------------------------------------------- */
+   ============================================================ */
 
 @theme inline {
-  /* Brand palette (exact, from the brand sheet) */
+  /* ---- Brand palette (exact, from the brand sheet) ---- */
   --color-brand-black: #101820;
   --color-brand-paleblue: #c6dae7;
   --color-brand-lightblue: #5e8ab4;
@@ -16,11 +19,23 @@
   --color-brand-lightgray: #98a4ae;
   --color-brand-darkgray: #5b6770;
 
-  /* Dark section grounds, drawn from the palette: Black + Dark Blue */
+  /* ---- Luxury-semantic aliases, all mapped to the brand palette
+          so the editorial code reads naturally ---- */
+  --color-bone: #ffffff;          /* white canvas per brand */
+  --color-alabaster: #f4f6f8;     /* cool, near-white blue-gray */
+  --color-cream: #c6dae7;         /* paleblue — soft light on dark */
+  --color-espresso: #101820;      /* brand-black */
+  --color-espresso-soft: #003a70; /* brand-darkblue */
+  --color-brass: #003a70;         /* primary accent → brand-darkblue */
+  --color-brass-soft: #c6dae7;    /* light accent variant → paleblue */
+  --color-stone: #5b6770;         /* muted text → brand-darkgray */
+  --color-stone-light: #98a4ae;   /* light gray */
+
+  /* Dark section grounds */
   --color-ink: #101820;
   --color-ink-soft: #003a70;
 
-  /* Semantic tokens — white ground, cool brand neutrals */
+  /* ---- Semantic tokens ---- */
   --color-background: #ffffff;
   --color-foreground: #101820;
   --color-muted: #f4f6f8;
@@ -39,17 +54,17 @@
   --color-card: #ffffff;
   --color-card-foreground: #101820;
 
-  /* Typography — Times Roman is the brand face */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Times New Roman", "Times", Georgia, serif;
-  --font-display: "Times New Roman", "Times", Georgia, serif;
+  /* ---- Typography ---- */
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-fraunces), "Times New Roman", Georgia, serif;
+  --font-display: var(--font-fraunces), "Times New Roman", Georgia, serif;
 
-  /* Radii */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  /* ---- Radii (soft, restrained) ---- */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
 }
 
 :root {
@@ -66,6 +81,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Whole-page film grain for subtle editorial depth */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.028;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 /* Lenis smooth scroll */
 html.lenis,
 html.lenis body {
@@ -80,14 +107,14 @@ html.lenis body {
 
 ::selection {
   background: var(--color-brand-darkblue);
-  color: #fff;
+  color: #ffffff;
 }
 
 /* ---------- Typography ---------- */
 .font-display {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 300;
+  letter-spacing: -0.018em;
 }
 
 .font-serif {
@@ -96,15 +123,16 @@ html.lenis body {
 
 .display-hero {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 0.98;
-  letter-spacing: -0.015em;
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.028em;
 }
 
 .eyebrow {
-  font-size: 0.72rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
 }
 
@@ -116,8 +144,62 @@ html.lenis body {
 .wordmark {
   font-family: var(--font-display);
   font-weight: 400;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+/* ---------- Atelier flourishes (brand-tinted) ---------- */
+
+/* Thin rule that fades at both ends — inherits the surrounding color */
+.gold-rule {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    currentColor 18%,
+    currentColor 82%,
+    transparent
+  );
+  opacity: 0.55;
+}
+
+/* Small tick used beside eyebrows / index numbers — inherits color */
+.brass-tick {
+  display: inline-block;
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  vertical-align: middle;
+  opacity: 0.85;
+}
+
+/* Hairline frame for editorial bordered blocks */
+.hairline {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, currentColor, transparent);
+  opacity: 0.25;
+}
+
+/* Film grain + vignette helpers for cinematic dark sections */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Soft brand-blue radial glow for dark grounds */
+.atelier-glow {
+  background-image: radial-gradient(
+    60% 60% at 50% 0%,
+    rgba(94, 138, 180, 0.16),
+    transparent 70%
+  );
 }
 
 /* Subtle blueprint texture, retained for legacy sections */
@@ -130,29 +212,6 @@ html.lenis body {
     ),
     linear-gradient(to bottom, rgba(0, 58, 112, 0.04) 1px, transparent 1px);
   background-size: 32px 32px;
-}
-
-/* Film grain + vignette helpers for cinematic sections */
-.grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-.hairline {
-  height: 1px;
-  width: 100%;
-  background: linear-gradient(
-    to right,
-    transparent,
-    currentColor,
-    transparent
-  );
-  opacity: 0.25;
 }
 
 /* ---------- Custom cursor ---------- */
@@ -176,27 +235,46 @@ html.lenis body {
     will-change: transform;
   }
   .cursor-dot {
-    width: 6px;
-    height: 6px;
-    margin: -3px 0 0 -3px;
-    background: #fff;
-    mix-blend-mode: difference;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    background: var(--color-brand-darkblue);
   }
   .cursor-ring {
-    width: 40px;
-    height: 40px;
-    margin: -20px 0 0 -20px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    width: 42px;
+    height: 42px;
+    margin: -21px 0 0 -21px;
+    border: 1px solid rgba(0, 58, 112, 0.55);
     mix-blend-mode: difference;
     transition: width 0.3s ease, height 0.3s ease, margin 0.3s ease,
       opacity 0.3s ease, background-color 0.3s ease;
   }
   .cursor-ring[data-hover="true"] {
-    width: 64px;
-    height: 64px;
-    margin: -32px 0 0 -32px;
-    background: rgba(255, 255, 255, 0.12);
+    width: 66px;
+    height: 66px;
+    margin: -33px 0 0 -33px;
+    background: rgba(0, 58, 112, 0.12);
   }
+}
+
+/* Hero headline line reveal — CSS-driven so it can't silently fail */
+@keyframes hero-line-rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+.hero-line-inner {
+  transform: translateY(110%);
+  animation: hero-line-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-line-1 {
+  animation-delay: 0.5s;
+}
+.hero-line-2 {
+  animation-delay: 0.66s;
 }
 
 /* Animated scroll cue */
@@ -240,6 +318,10 @@ html.lenis body {
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-cue-dot {
+    animation: none;
+  }
+  .hero-line-inner {
+    transform: translateY(0);
     animation: none;
   }
   * {

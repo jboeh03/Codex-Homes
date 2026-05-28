@@ -19,10 +19,10 @@ const numbers = [
 
 export default function AboutPage() {
   return (
-    <div className="bg-[--color-background]">
-      <section className="border-b border-[--color-border]">
+    <div className="bg-[var(--color-background)]">
+      <section className="border-b border-[var(--color-border)]">
         <div className="mx-auto max-w-[1400px] px-5 pb-20 pt-32 sm:px-8 lg:px-12 lg:pb-28 lg:pt-40">
-          <Reveal as="p" className="eyebrow mb-8 text-[--color-brand-darkblue]">
+          <Reveal as="p" className="eyebrow mb-8 text-[var(--color-brand-darkblue)]">
             About Codex Homes
           </Reveal>
           <Reveal>
@@ -30,7 +30,7 @@ export default function AboutPage() {
               A Cincinnati builder, built around clarity.
             </h1>
           </Reveal>
-          <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+          <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-darkgray)]">
             We&apos;re a small, employee-owned custom builder and remodeler —
             kitchens, baths, basements, additions, and whole-home renovations
             across Greater Cincinnati and Northern Kentucky.
@@ -60,7 +60,7 @@ export default function AboutPage() {
           </div>
 
           <div>
-            <Reveal as="p" className="eyebrow mb-6 text-[--color-brand-darkblue]">
+            <Reveal as="p" className="eyebrow mb-6 text-[var(--color-brand-darkblue)]">
               Why we exist
             </Reveal>
             <Reveal>
@@ -69,12 +69,12 @@ export default function AboutPage() {
                 creep, and silence between walkthroughs.
               </p>
             </Reveal>
-            <Reveal as="p" delay={0.05} className="mt-6 leading-relaxed text-[--color-brand-darkgray]">
+            <Reveal as="p" delay={0.05} className="mt-6 leading-relaxed text-[var(--color-brand-darkgray)]">
               We built Codex Homes around a simple thesis: homeowners deserve to
               know what&apos;s happening in their home, what it costs, and what
               comes next — every day of the project.
             </Reveal>
-            <Reveal as="p" delay={0.1} className="mt-4 leading-relaxed text-[--color-brand-darkgray]">
+            <Reveal as="p" delay={0.1} className="mt-4 leading-relaxed text-[var(--color-brand-darkgray)]">
               That&apos;s why we publish price ranges. Why we put a Designer Tool
               on our home page. Why every project gets a single lead, a daily
               photo log, and a written schedule. We&apos;d rather lose the job at
@@ -84,21 +84,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y border-[--color-border] bg-[--color-muted] py-20 lg:py-28">
+      <section className="border-y border-[var(--color-border)] bg-[var(--color-muted)] py-20 lg:py-28">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
           <Reveal as="h2" className="mb-14 font-display text-[clamp(1.8rem,4vw,3rem)] font-light tracking-tight">
             By the numbers
           </Reveal>
           <Reveal
             stagger={0.1}
-            className="grid grid-cols-1 gap-px overflow-hidden border border-[--color-border] bg-[--color-border] sm:grid-cols-2 lg:grid-cols-4"
+            className="grid grid-cols-1 gap-px overflow-hidden border border-[var(--color-border)] bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4"
           >
             {numbers.map(([n, label]) => (
-              <div key={label} className="bg-[--color-background] p-8 lg:p-10">
-                <p className="font-display text-5xl font-light text-[--color-brand-darkblue] lg:text-6xl">
+              <div key={label} className="bg-[var(--color-background)] p-8 lg:p-10">
+                <p className="font-display text-5xl font-light text-[var(--color-brand-darkblue)] lg:text-6xl">
                   {n}
                 </p>
-                <p className="mt-4 text-sm leading-relaxed text-[--color-brand-darkgray]">
+                <p className="mt-4 text-sm leading-relaxed text-[var(--color-brand-darkgray)]">
                   {label}
                 </p>
               </div>
@@ -107,7 +107,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[--color-ink] text-white">
+      <section className="relative overflow-hidden bg-[var(--color-ink)] text-white">
         <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
           <Reveal>
             <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
@@ -121,7 +121,7 @@ export default function AboutPage() {
             <Link
               href="/designer"
               data-cursor
-              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
             >
               Open the Designer
             </Link>

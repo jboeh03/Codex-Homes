@@ -117,15 +117,15 @@ function PortfolioCard({ item }: { item: GalleryItem }) {
       />
       <div className="mt-6 flex items-end justify-between gap-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-[--color-brand-darkgray]">
+          <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-brand-darkgray)]">
             {item.meta}
           </p>
-          <h2 className="mt-2 font-display text-2xl tracking-tight transition-colors group-hover:text-[--color-brand-darkblue] lg:text-3xl">
+          <h2 className="mt-2 font-display text-2xl tracking-tight transition-colors group-hover:text-[var(--color-brand-darkblue)] lg:text-3xl">
             {item.title}
           </h2>
         </div>
         {item.budget && (
-          <span className="shrink-0 text-xs uppercase tracking-[0.18em] text-[--color-brand-darkblue]">
+          <span className="shrink-0 text-xs uppercase tracking-[0.18em] text-[var(--color-brand-darkblue)]">
             {item.budget}
           </span>
         )}
@@ -147,11 +147,11 @@ export default async function PortfolioPage() {
   const projects = await loadProjects();
 
   return (
-    <div className="bg-[--color-background]">
-      <section className="border-b border-[--color-border]">
+    <div className="bg-[var(--color-background)]">
+      <section className="border-b border-[var(--color-border)]">
         <div className="mx-auto max-w-[1400px] px-5 pb-20 pt-32 sm:px-8 lg:px-12 lg:pb-28 lg:pt-40">
-          <Reveal as="p" className="eyebrow mb-8 text-[--color-brand-darkblue]">
-            <span className="text-[--color-brand-darkgray]">(03)</span>
+          <Reveal as="p" className="eyebrow mb-8 text-[var(--color-brand-darkblue)]">
+            <span className="text-[var(--color-brand-darkgray)]">(03)</span>
             &nbsp;&nbsp;Selected work
           </Reveal>
           <Reveal>
@@ -159,7 +159,7 @@ export default async function PortfolioPage() {
               Real Cincinnati homes. Real numbers.
             </h1>
           </Reveal>
-          <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+          <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-darkgray)]">
             Every project shows the neighborhood, the actual scope, the time it
             took, and the budget range. No staged renders, no stock photography.
           </Reveal>
@@ -177,10 +177,10 @@ export default async function PortfolioPage() {
       </section>
 
       {/* Recently completed — curated gallery */}
-      <section className="border-t border-[--color-border]">
+      <section className="border-t border-[var(--color-border)]">
         <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
-          <Reveal as="p" className="eyebrow mb-6 text-[--color-brand-darkblue]">
-            <span className="text-[--color-brand-darkgray]">(04)</span>
+          <Reveal as="p" className="eyebrow mb-6 text-[var(--color-brand-darkblue)]">
+            <span className="text-[var(--color-brand-darkgray)]">(04)</span>
             &nbsp;&nbsp;Recently completed
           </Reveal>
           <Reveal as="h2" className="mb-14 max-w-2xl font-display text-[clamp(2rem,4.5vw,3.75rem)] font-light leading-[1.05] tracking-tight lg:mb-20">
@@ -202,7 +202,7 @@ export default async function PortfolioPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[--color-ink] text-white">
+      <section className="relative overflow-hidden bg-[var(--color-ink)] text-white">
         <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
           <Reveal>
             <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
@@ -217,7 +217,7 @@ export default async function PortfolioPage() {
             <Link
               href="/get-estimate"
               data-cursor
-              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
             >
               Book a free estimate
             </Link>

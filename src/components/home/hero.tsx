@@ -13,9 +13,15 @@ export function Hero() {
     const el = root.current;
     if (!el) return;
 
+    const fadeEls = Array.from(
+      el.querySelectorAll<HTMLElement>("[data-hero-fade]")
+    );
+
+    // Headline line-reveal runs from a pure CSS keyframe (see globals.css)
+    // so it's deterministic across browsers and engines. GSAP handles the
+    // image entrance, the secondary fade group, and the scroll-bound moves.
     if (prefersReducedMotion()) {
-      gsap.set(el.querySelectorAll("[data-hero-fade]"), { opacity: 1, y: 0 });
-      gsap.set(el.querySelectorAll("[data-hero-line] span"), { yPercent: 0 });
+      gsap.set(fadeEls, { opacity: 1, y: 0, clearProps: "transform" });
       return;
     }
 
@@ -25,21 +31,14 @@ export function Hero() {
       tl.fromTo(
         imageWrap.current,
         { scale: 1.18 },
-        { scale: 1, duration: 2.4, ease: "power2.out" },
+        { scale: 1, duration: 2.6, ease: "power2.out" },
         0
-      )
-        .fromTo(
-          "[data-hero-line] span",
-          { yPercent: 120 },
-          { yPercent: 0, duration: 1.3, stagger: 0.12, ease: "power4.out" },
-          0.3
-        )
-        .fromTo(
-          "[data-hero-fade]",
-          { opacity: 0, y: 26 },
-          { opacity: 1, y: 0, duration: 1.1, stagger: 0.14, ease: "power3.out" },
-          0.9
-        );
+      ).fromTo(
+        fadeEls,
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 1.1, stagger: 0.14, ease: "power3.out" },
+        1.0
+      );
 
       gsap.to(imageWrap.current, {
         yPercent: 16,
@@ -74,70 +73,76 @@ export function Hero() {
   return (
     <section
       ref={root}
-      className="grain relative h-[100svh] w-full overflow-hidden bg-[--color-ink] text-white"
+      className="grain relative h-[100svh] w-full overflow-hidden bg-[var(--color-ink)] text-[var(--color-cream)]"
     >
       <div ref={imageWrap} className="absolute inset-0 will-change-transform">
         <Image
           src="/portfolio/portfolio-4.webp"
-          alt="A custom Cincinnati kitchen remodel by Codex Homes"
+          alt="A bespoke Cincinnati kitchen renovation by Codex Homes"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+        {/* Brand-black scrim — even and strong so the serif headline
+            pops and the photo recedes into a moody backdrop */}
+        <div className="absolute inset-0 bg-[#101820]/55" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101820] via-[#101820]/70 to-[#101820]/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#101820]/70 via-transparent to-transparent" />
       </div>
 
       <div
         data-hero-content
         className="relative z-10 mx-auto flex h-full max-w-[1400px] flex-col justify-end px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28"
       >
-        <p className="eyebrow mb-6 text-white/70">
-          <span data-hero-fade className="inline-block" style={{ opacity: 0 }}>
-            Cincinnati · Custom Build &amp; Remodel
+        <p className="eyebrow mb-7 flex items-center gap-3 text-[var(--color-brass-soft)]">
+          <span
+            data-hero-fade
+            className="inline-flex items-center gap-3"
+            style={{ opacity: 0 }}
+          >
+            <span className="brass-tick" />
+            Cincinnati · Bespoke Residential Renovation
           </span>
         </p>
 
-        <h1 className="display-hero max-w-5xl text-[clamp(2.8rem,9vw,8.5rem)] text-white">
-          <span data-hero-line className="block overflow-hidden pb-[0.08em]">
-            <span className="block" style={{ transform: "translateY(110%)" }}>
-              Living spaces,
+        <h1 className="display-hero max-w-5xl text-[clamp(2.8rem,9vw,8.5rem)] text-[#ffffff]">
+          <span className="hero-line block overflow-hidden pb-[0.08em]">
+            <span className="hero-line-inner hero-line-1 block">
+              The art of the
             </span>
           </span>
-          <span
-            data-hero-line
-            className="block overflow-hidden pb-[0.08em] italic text-white/90"
-          >
-            <span className="block" style={{ transform: "translateY(110%)" }}>
-              composed with intent.
+          <span className="hero-line block overflow-hidden pb-[0.08em] italic text-[var(--color-brass-soft)]">
+            <span className="hero-line-inner hero-line-2 block">
+              considered home.
             </span>
           </span>
         </h1>
 
         <div
           data-hero-fade
-          className="mt-8 flex max-w-2xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
+          className="mt-9 flex max-w-2xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
           style={{ opacity: 0 }}
         >
-          <p className="max-w-md text-base leading-relaxed text-white/75 sm:text-lg">
-            Kitchens, baths, and whole-home renovations for Greater Cincinnati —
-            built without the guesswork, priced before the first hammer falls.
+          <p className="max-w-md text-base leading-relaxed text-[#ffffff]/75 sm:text-lg">
+            Bespoke kitchens, baths, and whole-home renovations for Greater
+            Cincinnati — designed with restraint, built by master craftsmen, and
+            priced with absolute clarity.
           </p>
           <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
             <Link
-              href="/designer"
+              href="/get-estimate"
               data-cursor
-              className="rounded-full bg-white px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+              className="rounded-full bg-[#ffffff] px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.22em] text-[var(--color-ink)] transition-colors duration-300 hover:bg-[var(--color-brass-soft)]"
             >
-              Try the Designer
+              Request a consultation
             </Link>
             <Link
               href="/portfolio"
               data-cursor
-              className="rounded-full border border-white/40 px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10"
+              className="rounded-full border border-[#ffffff]/40 px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.22em] text-[#ffffff] transition-colors duration-300 hover:border-[var(--color-brass-soft)] hover:text-[var(--color-brass-soft)]"
             >
-              View Work
+              View the portfolio
             </Link>
           </div>
         </div>
@@ -149,11 +154,11 @@ export function Hero() {
           className="flex flex-col items-center gap-3"
           style={{ opacity: 0 }}
         >
-          <span className="text-[0.62rem] uppercase tracking-[0.3em] text-white/50">
+          <span className="text-[0.62rem] uppercase tracking-[0.3em] text-[#ffffff]/50">
             Scroll
           </span>
-          <span className="flex h-10 w-5 justify-center rounded-full border border-white/30 pt-2">
-            <span className="scroll-cue-dot h-1.5 w-1.5 rounded-full bg-white/70" />
+          <span className="flex h-10 w-5 justify-center rounded-full border border-[#ffffff]/30 pt-2">
+            <span className="scroll-cue-dot h-1.5 w-1.5 rounded-full bg-[var(--color-brass-soft)]" />
           </span>
         </div>
       </div>

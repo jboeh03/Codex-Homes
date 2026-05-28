@@ -109,10 +109,10 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
 
   if (done) {
     return (
-      <div className="rounded-xl border border-[--color-border] bg-white p-8 text-center shadow-sm">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-[--color-primary]" />
+      <div className="rounded-xl border border-[var(--color-border)] bg-white p-8 text-center shadow-sm">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-[var(--color-primary)]" />
         <h3 className="mt-4 font-display text-2xl">You&apos;re on the schedule.</h3>
-        <p className="mt-3 text-[--color-brand-darkgray]">
+        <p className="mt-3 text-[var(--color-brand-darkgray)]">
           We&apos;ll reach out within one business hour to confirm a time. If you&apos;d
           rather text us right now, just reply to the confirmation message.
         </p>
@@ -121,7 +121,7 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
   }
 
   return (
-    <div className="rounded-xl border border-[--color-border] bg-white p-6 shadow-sm sm:p-8">
+    <div className="rounded-xl border border-[var(--color-border)] bg-white p-6 shadow-sm sm:p-8">
       {/* Progress */}
       <div className="mb-6 flex items-center gap-2">
         {stepLabels.map((label, i) => (
@@ -130,8 +130,8 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
               className={cn(
                 "flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold",
                 i <= step
-                  ? "bg-[--color-primary] text-white"
-                  : "bg-[--color-muted] text-[--color-brand-darkgray]"
+                  ? "bg-[var(--color-primary)] text-white"
+                  : "bg-[var(--color-muted)] text-[var(--color-brand-darkgray)]"
               )}
             >
               {i + 1}
@@ -139,7 +139,7 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
             <span
               className={cn(
                 "hidden text-xs sm:inline",
-                i === step ? "text-[--color-foreground]" : "text-[--color-brand-darkgray]"
+                i === step ? "text-[var(--color-foreground)]" : "text-[var(--color-brand-darkgray)]"
               )}
             >
               {label}
@@ -160,8 +160,8 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
                 className={cn(
                   "rounded-md border p-4 text-left text-sm font-medium transition-colors",
                   data.projectType === t
-                    ? "border-[--color-primary] bg-[--color-secondary] text-[--color-primary]"
-                    : "border-[--color-border] bg-white hover:bg-[--color-muted]"
+                    ? "border-[var(--color-primary)] bg-[var(--color-secondary)] text-[var(--color-primary)]"
+                    : "border-[var(--color-border)] bg-white hover:bg-[var(--color-muted)]"
                 )}
               >
                 {projectTypeLabels[t]}
@@ -192,8 +192,8 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
                 className={cn(
                   "rounded-md border p-4 text-left text-sm font-medium",
                   data.timeline === t
-                    ? "border-[--color-primary] bg-[--color-secondary] text-[--color-primary]"
-                    : "border-[--color-border] bg-white hover:bg-[--color-muted]"
+                    ? "border-[var(--color-primary)] bg-[var(--color-secondary)] text-[var(--color-primary)]"
+                    : "border-[var(--color-border)] bg-white hover:bg-[var(--color-muted)]"
                 )}
               >
                 {timelineLabels[t]}
@@ -217,8 +217,8 @@ export function LeadForm({ source = "estimate-page" }: { source?: string }) {
                 className={cn(
                   "rounded-md border p-4 text-left text-sm font-medium",
                   data.budget === b
-                    ? "border-[--color-primary] bg-[--color-secondary] text-[--color-primary]"
-                    : "border-[--color-border] bg-white hover:bg-[--color-muted]"
+                    ? "border-[var(--color-primary)] bg-[var(--color-secondary)] text-[var(--color-primary)]"
+                    : "border-[var(--color-border)] bg-white hover:bg-[var(--color-muted)]"
                 )}
               >
                 {budgetLabels[b]}
@@ -328,10 +328,10 @@ function Step({
 }) {
   return (
     <div>
-      <h3 className="font-display text-2xl tracking-tight text-[--color-brand-black]">
+      <h3 className="font-display text-2xl tracking-tight text-[var(--color-brand-black)]">
         {title}
       </h3>
-      {subtitle && <p className="mt-2 text-sm text-[--color-brand-darkgray]">{subtitle}</p>}
+      {subtitle && <p className="mt-2 text-sm text-[var(--color-brand-darkgray)]">{subtitle}</p>}
       <div className="mt-6">{children}</div>
     </div>
   );

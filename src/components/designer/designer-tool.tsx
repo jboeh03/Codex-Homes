@@ -249,8 +249,8 @@ export function DesignerTool({ materials }: Props) {
     <div className="grid gap-6 lg:grid-cols-[260px_1fr_320px]">
       {/* Left: room + categories */}
       <aside className="space-y-6">
-        <div className="rounded-xl border border-[--color-border] bg-white p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+        <div className="rounded-xl border border-[var(--color-border)] bg-white p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-brand-darkgray)]">
             Room
           </p>
           <div className="mt-3 grid grid-cols-3 gap-2">
@@ -262,8 +262,8 @@ export function DesignerTool({ materials }: Props) {
                 className={cn(
                   "rounded-md border px-2 py-2 text-xs font-medium capitalize transition-colors",
                   roomType === rt
-                    ? "border-[--color-primary] bg-[--color-secondary] text-[--color-primary]"
-                    : "border-[--color-border] bg-white text-[--color-brand-darkgray] hover:bg-[--color-muted]",
+                    ? "border-[var(--color-primary)] bg-[var(--color-secondary)] text-[var(--color-primary)]"
+                    : "border-[var(--color-border)] bg-white text-[var(--color-brand-darkgray)] hover:bg-[var(--color-muted)]",
                 )}
               >
                 {rt}
@@ -272,8 +272,8 @@ export function DesignerTool({ materials }: Props) {
           </div>
         </div>
 
-        <div className="rounded-xl border border-[--color-border] bg-white p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+        <div className="rounded-xl border border-[var(--color-border)] bg-white p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-brand-darkgray)]">
             Categories
           </p>
           <div className="mt-3 space-y-1">
@@ -288,13 +288,13 @@ export function DesignerTool({ materials }: Props) {
                   className={cn(
                     "flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors",
                     activeCategory === c.id
-                      ? "bg-[--color-secondary] text-[--color-primary]"
-                      : "hover:bg-[--color-muted]",
+                      ? "bg-[var(--color-secondary)] text-[var(--color-primary)]"
+                      : "hover:bg-[var(--color-muted)]",
                   )}
                 >
                   <div className="min-w-0">
                     <p className="font-medium">{c.label}</p>
-                    <p className="truncate text-xs text-[--color-brand-darkgray]">
+                    <p className="truncate text-xs text-[var(--color-brand-darkgray)]">
                       {mat ? mat.name : "Not selected"}
                     </p>
                   </div>
@@ -314,8 +314,8 @@ export function DesignerTool({ materials }: Props) {
           </div>
         </div>
 
-        <div className="rounded-xl border border-[--color-border] bg-white p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+        <div className="rounded-xl border border-[var(--color-border)] bg-white p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-brand-darkgray)]">
             Room dimensions
           </p>
           <div className="mt-3 grid grid-cols-2 gap-3">
@@ -328,16 +328,16 @@ export function DesignerTool({ materials }: Props) {
             <DimField label="Lights" value={dimensions.lightingCount} onChange={(v) => updateDim("lightingCount", v)} />
             <DimField label="Ceiling (ft)" value={dimensions.ceilingFt} onChange={(v) => updateDim("ceilingFt", v)} />
           </div>
-          <p className="mt-3 text-xs text-[--color-brand-darkgray]">
+          <p className="mt-3 text-xs text-[var(--color-brand-darkgray)]">
             Floor: {(dimensions.lengthFt * dimensions.widthFt).toFixed(0)} sf
           </p>
         </div>
 
-        <div className="rounded-xl border border-[--color-border] bg-white p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+        <div className="rounded-xl border border-[var(--color-border)] bg-white p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-brand-darkgray)]">
             Your room photos
           </p>
-          <p className="mt-1 text-xs text-[--color-brand-darkgray]">
+          <p className="mt-1 text-xs text-[var(--color-brand-darkgray)]">
             Snap or upload up to 12. We&apos;ll use them for the preview and bring them to the consult.
           </p>
           <input
@@ -375,7 +375,7 @@ export function DesignerTool({ materials }: Props) {
           {photoUrls.length > 0 && (
             <div className="mt-3 grid grid-cols-3 gap-2">
               {photoUrls.map((url) => (
-                <div key={url} className="group relative aspect-square overflow-hidden rounded-md border border-[--color-border]">
+                <div key={url} className="group relative aspect-square overflow-hidden rounded-md border border-[var(--color-border)]">
                   <img src={url} alt="Room" className="h-full w-full object-cover" />
                   <button
                     type="button"
@@ -406,21 +406,21 @@ export function DesignerTool({ materials }: Props) {
           onGenerate={generateAiPreview}
         />
 
-        <div className="rounded-xl border border-[--color-border] bg-white p-5">
+        <div className="rounded-xl border border-[var(--color-border)] bg-white p-5">
           <div className="flex items-end justify-between gap-3">
             <div>
               <h3 className="font-display text-2xl">{activeMeta?.label}</h3>
               {activeMeta && (
-                <p className="mt-1 text-xs text-[--color-brand-darkgray]">{activeMeta.helper}</p>
+                <p className="mt-1 text-xs text-[var(--color-brand-darkgray)]">{activeMeta.helper}</p>
               )}
             </div>
-            <p className="text-xs text-[--color-brand-darkgray]">
+            <p className="text-xs text-[var(--color-brand-darkgray)]">
               {activeOptions.length} option{activeOptions.length === 1 ? "" : "s"}
             </p>
           </div>
 
           {activeOptions.length === 0 ? (
-            <p className="mt-6 rounded-md bg-[--color-muted] p-4 text-sm text-[--color-brand-darkgray]">
+            <p className="mt-6 rounded-md bg-[var(--color-muted)] p-4 text-sm text-[var(--color-brand-darkgray)]">
               No materials in this category yet. Talk to us at the consult — we&apos;ll show
               you samples.
             </p>
@@ -436,8 +436,8 @@ export function DesignerTool({ materials }: Props) {
                     className={cn(
                       "group flex items-center gap-3 rounded-lg border p-3 text-left transition-colors",
                       selected
-                        ? "border-[--color-primary] bg-[--color-secondary]/40"
-                        : "border-[--color-border] bg-white hover:bg-[--color-muted]",
+                        ? "border-[var(--color-primary)] bg-[var(--color-secondary)]/40"
+                        : "border-[var(--color-border)] bg-white hover:bg-[var(--color-muted)]",
                     )}
                   >
                     <span
@@ -450,18 +450,18 @@ export function DesignerTool({ materials }: Props) {
                     />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2">
-                        <span className="truncate font-medium text-[--color-foreground]">
+                        <span className="truncate font-medium text-[var(--color-foreground)]">
                           {m.name}
                         </span>
-                        {selected && <Check className="h-4 w-4 shrink-0 text-[--color-primary]" />}
+                        {selected && <Check className="h-4 w-4 shrink-0 text-[var(--color-primary)]" />}
                       </span>
-                      <span className="block truncate text-xs text-[--color-brand-darkgray]">
+                      <span className="block truncate text-xs text-[var(--color-brand-darkgray)]">
                         {m.supplier}
                         {m.supplier && " · "}
                         {formatCurrency(Number(m.unit_cost))}/{m.unit}
                       </span>
                       {m.sku && (
-                        <span className="mt-0.5 block truncate font-mono text-[10px] text-[--color-brand-lightgray]">
+                        <span className="mt-0.5 block truncate font-mono text-[10px] text-[var(--color-brand-lightgray)]">
                           SKU {m.sku}
                         </span>
                       )}
@@ -476,12 +476,12 @@ export function DesignerTool({ materials }: Props) {
 
       {/* Right: live estimate */}
       <aside className="lg:sticky lg:top-24 lg:self-start">
-        <div className="rounded-xl border border-[--color-border] bg-[--color-brand-black] p-5 text-white shadow-lg">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-brand-black)] p-5 text-white shadow-lg">
           <div className="flex items-center justify-between">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-white/60">
               Installed price range
             </p>
-            <Sparkles className="h-4 w-4 text-[--color-brand-paleblue]" />
+            <Sparkles className="h-4 w-4 text-[var(--color-brand-paleblue)]" />
           </div>
           <p className="mt-3 font-display text-3xl tracking-tight">
             {estimate.rangeLow > 0
@@ -521,12 +521,12 @@ export function DesignerTool({ materials }: Props) {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between text-xs text-[--color-brand-darkgray]">
+        <div className="mt-3 flex items-center justify-between text-xs text-[var(--color-brand-darkgray)]">
           <SaveStatus state={saveState} hasSession={!!sessionId} />
           <button
             type="button"
             onClick={() => void persist()}
-            className="inline-flex items-center gap-1 text-[--color-primary] hover:underline"
+            className="inline-flex items-center gap-1 text-[var(--color-primary)] hover:underline"
           >
             <Save className="h-3 w-3" />
             Save now
@@ -539,7 +539,7 @@ export function DesignerTool({ materials }: Props) {
             <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
-        <p className="mt-2 text-center text-xs text-[--color-brand-darkgray]">
+        <p className="mt-2 text-center text-xs text-[var(--color-brand-darkgray)]">
           Your design is auto-saved so you can come back later.
         </p>
       </aside>
@@ -558,7 +558,7 @@ function DimField({
 }) {
   return (
     <label className="text-xs">
-      <span className="block text-[--color-brand-darkgray]">{label}</span>
+      <span className="block text-[var(--color-brand-darkgray)]">{label}</span>
       <Input
         type="number"
         min={0}
@@ -598,7 +598,7 @@ function SaveStatus({
   if (state === "saved" || hasSession) {
     return (
       <span className="inline-flex items-center gap-1">
-        <Check className="h-3 w-3 text-[--color-primary]" /> Saved
+        <Check className="h-3 w-3 text-[var(--color-primary)]" /> Saved
       </span>
     );
   }
@@ -650,13 +650,13 @@ function RoomPreview({
     const aiBusy = render?.status === "starting" || render?.status === "processing";
     const aiDone = render?.status === "succeeded" && render.outputUrl;
     return (
-      <div className="overflow-hidden rounded-xl border border-[--color-border] bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[--color-border] px-5 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+      <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-brand-darkgray)]">
             Your room · with your finishes
           </p>
           <div className="flex items-center gap-3">
-            <p className="text-xs text-[--color-brand-darkgray]">
+            <p className="text-xs text-[var(--color-brand-darkgray)]">
               {dimensions.lengthFt}&apos; × {dimensions.widthFt}&apos;
             </p>
             <Button
@@ -687,7 +687,7 @@ function RoomPreview({
           </div>
         </div>
 
-        <div className={cn("grid gap-px bg-[--color-border]", aiDone && "grid-cols-2")}>
+        <div className={cn("grid gap-px bg-[var(--color-border)]", aiDone && "grid-cols-2")}>
           <div className="relative h-[360px] w-full overflow-hidden bg-black/5">
             <img
               src={heroPhoto}
@@ -709,8 +709,8 @@ function RoomPreview({
                         : m.color_hex || "#E5E9EC",
                     }}
                   />
-                  <span className="text-[11px] font-medium text-[--color-foreground]">
-                    <span className="text-[--color-brand-darkgray]">{label}: </span>
+                  <span className="text-[11px] font-medium text-[var(--color-foreground)]">
+                    <span className="text-[var(--color-brand-darkgray)]">{label}: </span>
                     {m.name}
                   </span>
                 </div>
@@ -728,7 +728,7 @@ function RoomPreview({
                 alt="AI preview of your remodel"
                 className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute left-3 top-3 rounded bg-[--color-primary] px-2 py-1 text-[10px] uppercase tracking-wider text-white">
+              <div className="absolute left-3 top-3 rounded bg-[var(--color-primary)] px-2 py-1 text-[10px] uppercase tracking-wider text-white">
                 AI preview · not a final render
               </div>
             </div>
@@ -736,7 +736,7 @@ function RoomPreview({
         </div>
 
         {(renderError || render?.status === "failed" || renderIsStale) && (
-          <div className="border-t border-[--color-border] px-5 py-3 text-xs">
+          <div className="border-t border-[var(--color-border)] px-5 py-3 text-xs">
             {renderError && <p className="text-red-600">{renderError}</p>}
             {!renderError && render?.status === "failed" && (
               <p className="text-red-600">
@@ -744,7 +744,7 @@ function RoomPreview({
               </p>
             )}
             {!renderError && renderIsStale && render?.status === "succeeded" && (
-              <p className="text-[--color-brand-darkgray]">
+              <p className="text-[var(--color-brand-darkgray)]">
                 Selections changed since this render. Click <strong>Update AI preview</strong> to regenerate.
               </p>
             )}
@@ -752,13 +752,13 @@ function RoomPreview({
         )}
 
         {photoUrls.length > 1 && (
-          <div className="flex gap-2 overflow-x-auto border-t border-[--color-border] p-3">
+          <div className="flex gap-2 overflow-x-auto border-t border-[var(--color-border)] p-3">
             {photoUrls.slice(1).map((url) => (
               <img
                 key={url}
                 src={url}
                 alt="Room"
-                className="h-16 w-24 shrink-0 rounded border border-[--color-border] object-cover"
+                className="h-16 w-24 shrink-0 rounded border border-[var(--color-border)] object-cover"
               />
             ))}
           </div>
@@ -774,12 +774,12 @@ function RoomPreview({
       : m?.color_hex || fallback;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[--color-border] bg-white">
-      <div className="flex items-center justify-between border-b border-[--color-border] px-5 py-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[--color-brand-darkgray]">
+    <div className="overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
+      <div className="flex items-center justify-between border-b border-[var(--color-border)] px-5 py-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-brand-darkgray)]">
           Room preview · add a photo for a real view
         </p>
-        <p className="text-xs text-[--color-brand-darkgray]">
+        <p className="text-xs text-[var(--color-brand-darkgray)]">
           {dimensions.lengthFt}&apos; × {dimensions.widthFt}&apos;
         </p>
       </div>
