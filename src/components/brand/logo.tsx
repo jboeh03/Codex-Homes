@@ -9,7 +9,7 @@ interface LogoProps {
 const sources: Record<NonNullable<LogoProps["variant"]>, string> = {
   horizontal: "/brand/codex-logo-horizontal.png",
   "horizontal-white": "/brand/codex-logo-horizontal-white.png",
-  monogram: "/brand/codex-ch-monogram.svg",
+  monogram: "/brand/codex-monogram.png",
 };
 
 export function Logo({ variant = "horizontal", className }: LogoProps) {

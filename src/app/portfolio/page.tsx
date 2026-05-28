@@ -63,6 +63,21 @@ const fallbackProjects: GalleryItem[] = [
   },
 ];
 
+const galleryImages = [
+  "/showcase/showcase-01.webp",
+  "/showcase/showcase-02.webp",
+  "/showcase/showcase-03.webp",
+  "/showcase/showcase-04.webp",
+  "/showcase/showcase-05.webp",
+  "/showcase/showcase-06.webp",
+  "/showcase/showcase-07.webp",
+  "/showcase/showcase-08.webp",
+  "/showcase/showcase-09.webp",
+  "/showcase/showcase-10.webp",
+  "/showcase/showcase-11.webp",
+  "/showcase/showcase-12.webp",
+];
+
 async function loadProjects(): Promise<GalleryItem[]> {
   try {
     const supabase = await createSupabaseServerClient();
@@ -158,6 +173,32 @@ export default async function PortfolioPage() {
               <PortfolioCard item={p} />
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* Recently completed — curated gallery */}
+      <section className="border-t border-[--color-border]">
+        <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+          <Reveal as="p" className="eyebrow mb-6 text-[--color-brand-darkblue]">
+            <span className="text-[--color-brand-darkgray]">(04)</span>
+            &nbsp;&nbsp;Recently completed
+          </Reveal>
+          <Reveal as="h2" className="mb-14 max-w-2xl font-display text-[clamp(2rem,4.5vw,3.75rem)] font-light leading-[1.05] tracking-tight lg:mb-20">
+            A few rooms we&apos;ve finished lately.
+          </Reveal>
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+            {galleryImages.map((src, i) => (
+              <Reveal key={src} delay={(i % 3) * 0.06}>
+                <CinematicImage
+                  src={src}
+                  alt="A completed Codex Homes remodel in Greater Cincinnati"
+                  className="aspect-[4/3] w-full rounded-lg"
+                  imageClassName="transition-transform duration-[1.2s] ease-out hover:scale-105"
+                  sizes="(max-width: 1024px) 50vw, 30vw"
+                />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
