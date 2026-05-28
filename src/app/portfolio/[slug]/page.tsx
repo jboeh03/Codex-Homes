@@ -40,18 +40,18 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
   const gallery = Array.isArray(data.gallery) ? (data.gallery as unknown[]) : [];
 
   return (
-    <div className="bg-[--color-background]">
+    <div className="bg-[var(--color-background)]">
       <section className="mx-auto max-w-[1400px] px-5 pb-12 pt-32 sm:px-8 lg:px-12 lg:pt-40">
         <Reveal as="div">
           <Link
             href="/portfolio"
             data-cursor
-            className="link-underline text-xs uppercase tracking-[0.2em] text-[--color-brand-darkblue]"
+            className="link-underline text-xs uppercase tracking-[0.2em] text-[var(--color-brand-darkblue)]"
           >
             ← All projects
           </Link>
         </Reveal>
-        <Reveal as="p" className="mb-6 mt-10 text-xs uppercase tracking-[0.18em] text-[--color-brand-darkgray]">
+        <Reveal as="p" className="mb-6 mt-10 text-xs uppercase tracking-[0.18em] text-[var(--color-brand-darkgray)]">
           {data.neighborhood || "Cincinnati"} · {data.year ?? "—"} ·{" "}
           {data.duration_weeks ? `${data.duration_weeks} weeks` : "—"}
         </Reveal>
@@ -60,7 +60,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
             {data.title}
           </h1>
         </Reveal>
-        <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+        <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-darkgray)]">
           {data.summary}
         </Reveal>
       </section>
@@ -68,7 +68,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
       {data.hero_image && (
         <section className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
           <div
-            className="aspect-[16/9] w-full rounded-xl bg-[--color-muted]"
+            className="aspect-[16/9] w-full rounded-xl bg-[var(--color-muted)]"
             style={{ background: `center/cover no-repeat url(${data.hero_image})` }}
           />
         </section>
@@ -76,7 +76,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
 
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
         {data.body.split("\n\n").map((para, i) => (
-          <Reveal as="p" key={i} className="mb-6 text-lg leading-relaxed text-[--color-brand-darkgray]">
+          <Reveal as="p" key={i} className="mb-6 text-lg leading-relaxed text-[var(--color-brand-darkgray)]">
             {para}
           </Reveal>
         ))}
@@ -88,7 +88,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
             {gallery.map((src, i) => (
               <div
                 key={i}
-                className="aspect-[4/3] rounded-lg bg-[--color-muted]"
+                className="aspect-[4/3] rounded-lg bg-[var(--color-muted)]"
                 style={{ background: `center/cover no-repeat url(${String(src)})` }}
               />
             ))}
@@ -96,7 +96,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
         </section>
       )}
 
-      <section className="relative overflow-hidden bg-[--color-ink] text-white">
+      <section className="relative overflow-hidden bg-[var(--color-ink)] text-white">
         <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
           <Reveal>
             <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
@@ -111,7 +111,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
             <Link
               href="/designer"
               data-cursor
-              className="inline-block rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+              className="inline-block rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
             >
               Open the Designer Tool
             </Link>

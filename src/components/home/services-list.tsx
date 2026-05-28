@@ -74,9 +74,9 @@ export function ServicesList() {
         ))}
       </div>
 
-      <ul className="border-t border-[--color-border]">
+      <ul className="border-t border-[var(--color-border)]">
         {shown.map((s, i) => (
-          <li key={s.slug} className="border-b border-[--color-border]">
+          <li key={s.slug} className="border-b border-[var(--color-border)]">
             <Link
               href={`/services/${s.slug}`}
               data-cursor
@@ -84,19 +84,19 @@ export function ServicesList() {
               className="group flex items-center justify-between gap-6 py-7 transition-colors lg:py-9"
             >
               <div className="flex items-baseline gap-5 lg:gap-10">
-                <span className="text-xs tabular-nums text-[--color-brand-lightgray]">
+                <span className="text-xs tabular-nums text-[var(--color-brand-lightgray)]">
                   0{i + 1}
                 </span>
                 <span
                   className={cn(
                     "font-display text-3xl tracking-tight transition-all duration-500 sm:text-4xl lg:text-6xl",
-                    "text-[--color-foreground]/55 group-hover:text-[--color-foreground] group-hover:translate-x-2"
+                    "text-[var(--color-foreground)]/55 group-hover:text-[var(--color-foreground)] group-hover:translate-x-2"
                   )}
                 >
                   {s.title}
                 </span>
               </div>
-              <span className="hidden shrink-0 text-xs uppercase tracking-[0.2em] text-[--color-brand-darkgray] transition-colors group-hover:text-[--color-brand-darkblue] md:inline">
+              <span className="hidden shrink-0 text-xs uppercase tracking-[0.2em] text-[var(--color-brand-darkgray)] transition-colors group-hover:text-[var(--color-brand-darkblue)] md:inline">
                 View →
               </span>
             </Link>

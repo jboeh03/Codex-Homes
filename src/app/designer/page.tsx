@@ -26,13 +26,13 @@ export default async function DesignerPage() {
     <div className="bg-blueprint">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[--color-primary]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)]">
             Designer Tool
           </p>
-          <h1 className="font-display text-4xl tracking-tight text-[--color-brand-black] sm:text-5xl">
+          <h1 className="font-display text-4xl tracking-tight text-[var(--color-brand-black)] sm:text-5xl">
             Design your remodel. See a real price range.
           </h1>
-          <p className="mt-3 max-w-2xl text-[--color-brand-darkgray]">
+          <p className="mt-3 max-w-2xl text-[var(--color-brand-darkgray)]">
             Pick materials from the suppliers we actually buy from in Cincinnati. The price
             range updates as you change selections and room dimensions. Save it and bring it
             to your free in-home consult.

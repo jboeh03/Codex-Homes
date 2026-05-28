@@ -31,18 +31,18 @@ export default async function ServicePage({ params }: PageProps) {
   if (!service) notFound();
 
   return (
-    <div className="bg-[--color-background]">
+    <div className="bg-[var(--color-background)]">
       <section className="mx-auto max-w-[1400px] px-5 pb-12 pt-32 sm:px-8 lg:px-12 lg:pt-40">
         <Reveal as="div">
           <Link
             href="/services"
             data-cursor
-            className="link-underline text-xs uppercase tracking-[0.2em] text-[--color-brand-darkblue]"
+            className="link-underline text-xs uppercase tracking-[0.2em] text-[var(--color-brand-darkblue)]"
           >
             ← All services
           </Link>
         </Reveal>
-        <Reveal as="p" className="eyebrow mb-6 mt-10 text-[--color-brand-darkgray]">
+        <Reveal as="p" className="eyebrow mb-6 mt-10 text-[var(--color-brand-darkgray)]">
           {service.shortTitle} in Cincinnati
         </Reveal>
         <Reveal>
@@ -50,13 +50,13 @@ export default async function ServicePage({ params }: PageProps) {
             {service.title}
           </h1>
         </Reveal>
-        <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+        <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-darkgray)]">
           {service.longBlurb}
         </Reveal>
-        <Reveal delay={0.1} className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.18em] text-[--color-brand-darkgray]">
+        <Reveal delay={0.1} className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase tracking-[0.18em] text-[var(--color-brand-darkgray)]">
           <span>
             Typical range ·{" "}
-            <span className="text-[--color-brand-darkblue]">
+            <span className="text-[var(--color-brand-darkblue)]">
               {formatCurrencyRange(service.priceRange[0], service.priceRange[1])}
             </span>
           </span>
@@ -85,9 +85,9 @@ export default async function ServicePage({ params }: PageProps) {
               {service.scope.map((line) => (
                 <div
                   key={line}
-                  className="flex items-start gap-4 border-b border-[--color-border] py-4 text-[--color-brand-darkgray]"
+                  className="flex items-start gap-4 border-b border-[var(--color-border)] py-4 text-[var(--color-brand-darkgray)]"
                 >
-                  <span className="mt-0.5 text-[--color-brand-darkblue]">—</span>
+                  <span className="mt-0.5 text-[var(--color-brand-darkblue)]">—</span>
                   <span>{line}</span>
                 </div>
               ))}
@@ -101,9 +101,9 @@ export default async function ServicePage({ params }: PageProps) {
               {service.highlights.map((line) => (
                 <div
                   key={line}
-                  className="flex items-start gap-4 border-b border-[--color-border] py-4 text-[--color-brand-darkgray]"
+                  className="flex items-start gap-4 border-b border-[var(--color-border)] py-4 text-[var(--color-brand-darkgray)]"
                 >
-                  <span className="mt-0.5 text-[--color-brand-darkblue]">—</span>
+                  <span className="mt-0.5 text-[var(--color-brand-darkblue)]">—</span>
                   <span>{line}</span>
                 </div>
               ))}
@@ -112,7 +112,7 @@ export default async function ServicePage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[--color-ink] text-white">
+      <section className="relative overflow-hidden bg-[var(--color-ink)] text-white">
         <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
           <Reveal>
             <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
@@ -127,7 +127,7 @@ export default async function ServicePage({ params }: PageProps) {
             <Link
               href="/get-estimate"
               data-cursor
-              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+              className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
             >
               Book a free estimate
             </Link>

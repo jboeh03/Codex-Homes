@@ -14,11 +14,11 @@ export const metadata: Metadata = {
 
 export default function ServicesIndexPage() {
   return (
-    <div className="bg-[--color-background]">
-      <section className="border-b border-[--color-border]">
+    <div className="bg-[var(--color-background)]">
+      <section className="border-b border-[var(--color-border)]">
         <div className="mx-auto max-w-[1400px] px-5 pb-20 pt-32 sm:px-8 lg:px-12 lg:pb-28 lg:pt-40">
-          <Reveal as="p" className="eyebrow mb-8 text-[--color-brand-darkblue]">
-            <span className="text-[--color-brand-darkgray]">(01)</span>
+          <Reveal as="p" className="eyebrow mb-8 text-[var(--color-brand-darkblue)]">
+            <span className="text-[var(--color-brand-darkgray)]">(01)</span>
             &nbsp;&nbsp;Services
           </Reveal>
           <Reveal>
@@ -26,7 +26,7 @@ export default function ServicesIndexPage() {
               Every part of the house. One Cincinnati team.
             </h1>
           </Reveal>
-          <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[--color-brand-darkgray]">
+          <Reveal as="p" delay={0.05} className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-darkgray)]">
             Browse by room or by scope. Every service includes a free in-home
             assessment and a written, fixed-scope quote — no surprises between
             the consult and the invoice.
@@ -48,15 +48,15 @@ export default function ServicesIndexPage() {
                 />
                 <div className="mt-6 flex items-start justify-between gap-6">
                   <div>
-                    <h2 className="font-display text-3xl tracking-tight transition-colors group-hover:text-[--color-brand-darkblue] lg:text-4xl">
+                    <h2 className="font-display text-3xl tracking-tight transition-colors group-hover:text-[var(--color-brand-darkblue)] lg:text-4xl">
                       {service.title}
                     </h2>
-                    <p className="mt-3 max-w-md text-sm leading-relaxed text-[--color-brand-darkgray]">
+                    <p className="mt-3 max-w-md text-sm leading-relaxed text-[var(--color-brand-darkgray)]">
                       {service.blurb}
                     </p>
                   </div>
                 </div>
-                <div className="mt-5 flex items-center justify-between border-t border-[--color-border] pt-4 text-xs uppercase tracking-[0.18em] text-[--color-brand-darkgray]">
+                <div className="mt-5 flex items-center justify-between border-t border-[var(--color-border)] pt-4 text-xs uppercase tracking-[0.18em] text-[var(--color-brand-darkgray)]">
                   <span>
                     {formatCurrencyRange(service.priceRange[0], service.priceRange[1])}
                   </span>
@@ -77,7 +77,7 @@ export default function ServicesIndexPage() {
 
 function CtaBand() {
   return (
-    <section className="relative overflow-hidden bg-[--color-ink] text-white">
+    <section className="relative overflow-hidden bg-[var(--color-ink)] text-white">
       <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:px-12 lg:py-28">
         <Reveal>
           <h2 className="max-w-2xl font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.05] tracking-tight">
@@ -92,7 +92,7 @@ function CtaBand() {
           <Link
             href="/designer"
             data-cursor
-            className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[--color-ink] transition-colors hover:bg-[--color-brand-paleblue]"
+            className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
           >
             Open the Designer
           </Link>

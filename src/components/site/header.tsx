@@ -37,7 +37,7 @@ export function SiteHeader() {
         "top-0 z-50 w-full transition-all duration-500",
         isHome ? "fixed" : "sticky",
         solid
-          ? "border-b border-[--color-border] bg-[--color-background]/85 backdrop-blur-md"
+          ? "border-b border-[var(--color-border)] bg-[var(--color-background)]/85 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       )}
     >
@@ -66,7 +66,7 @@ export function SiteHeader() {
               className={cn(
                 "link-underline text-[0.8rem] uppercase tracking-[0.2em] transition-colors",
                 solid
-                  ? "text-[--color-foreground]/80 hover:text-[--color-foreground]"
+                  ? "text-[var(--color-foreground)]/80 hover:text-[var(--color-foreground)]"
                   : "text-white/80 hover:text-white"
               )}
             >
@@ -81,7 +81,7 @@ export function SiteHeader() {
             data-cursor
             className={cn(
               "text-[0.8rem] tracking-wide transition-colors",
-              solid ? "text-[--color-foreground]/70 hover:text-[--color-foreground]" : "text-white/70 hover:text-white"
+              solid ? "text-[var(--color-foreground)]/70 hover:text-[var(--color-foreground)]" : "text-white/70 hover:text-white"
             )}
           >
             (513) 555-0123
@@ -90,13 +90,13 @@ export function SiteHeader() {
             href="/get-estimate"
             data-cursor
             className={cn(
-              "group relative overflow-hidden rounded-full border px-6 py-2.5 text-[0.72rem] uppercase tracking-[0.2em] transition-colors duration-300",
+              "group relative overflow-hidden rounded-full border px-6 py-2.5 text-[0.72rem] uppercase tracking-[0.22em] transition-colors duration-300",
               solid
-                ? "border-[--color-brand-darkblue] text-[--color-brand-darkblue] hover:bg-[--color-brand-darkblue] hover:text-white"
-                : "border-white/60 text-white hover:bg-white hover:text-[--color-ink]"
+                ? "border-[var(--color-brass)] text-[var(--color-brass)] hover:bg-[var(--color-brass)] hover:text-[var(--color-primary-foreground)]"
+                : "border-white/60 text-white hover:bg-white hover:text-[var(--color-ink)]"
             )}
           >
-            Free Estimate
+            Consultation
           </Link>
         </div>
 
@@ -104,7 +104,7 @@ export function SiteHeader() {
           type="button"
           className={cn(
             "rounded-md p-2 md:hidden",
-            solid ? "text-[--color-foreground]" : "text-white"
+            solid ? "text-[var(--color-foreground)]" : "text-white"
           )}
           aria-label="Toggle navigation"
           aria-expanded={open}
@@ -117,7 +117,7 @@ export function SiteHeader() {
       <div
         className={cn(
           "md:hidden",
-          open ? "block border-t border-[--color-border] bg-[--color-background]" : "hidden"
+          open ? "block border-t border-[var(--color-border)] bg-[var(--color-background)]" : "hidden"
         )}
       >
         <div className="space-y-1 px-5 py-4">
@@ -126,7 +126,7 @@ export function SiteHeader() {
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="block py-3 text-sm uppercase tracking-[0.18em] text-[--color-foreground]"
+              className="block py-3 text-sm uppercase tracking-[0.18em] text-[var(--color-foreground)]"
             >
               {item.label}
             </Link>
@@ -134,16 +134,16 @@ export function SiteHeader() {
           <div className="flex gap-3 pt-3">
             <a
               href="tel:+15135550123"
-              className="flex-1 rounded-full border border-[--color-border] py-3 text-center text-xs uppercase tracking-[0.18em]"
+              className="flex-1 rounded-full border border-[var(--color-border)] py-3 text-center text-xs uppercase tracking-[0.18em]"
             >
               Call
             </a>
             <Link
               href="/get-estimate"
               onClick={() => setOpen(false)}
-              className="flex-1 rounded-full bg-[--color-brand-darkblue] py-3 text-center text-xs uppercase tracking-[0.18em] text-white"
+              className="flex-1 rounded-full bg-[var(--color-brass)] py-3 text-center text-xs uppercase tracking-[0.2em] text-[var(--color-primary-foreground)]"
             >
-              Free Estimate
+              Consultation
             </Link>
           </div>
         </div>

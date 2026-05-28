@@ -12,12 +12,12 @@ export function TrustStrip() {
   return (
     <section
       aria-label="Trust"
-      className="border-y border-[--color-border] bg-[--color-muted]"
+      className="border-y border-[var(--color-border)] bg-[var(--color-muted)]"
     >
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-4 px-4 py-6 text-sm text-[--color-muted-foreground] sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-4 px-4 py-6 text-sm text-[var(--color-muted-foreground)] sm:px-6 lg:px-8">
         {items.map(({ icon: Icon, label }) => (
           <div key={label} className="flex items-center gap-2">
-            <Icon className="h-4 w-4 text-[--color-primary]" aria-hidden />
+            <Icon className="h-4 w-4 text-[var(--color-primary)]" aria-hidden />
             <span>{label}</span>
           </div>
         ))}

@@ -47,13 +47,13 @@ export default function ProcessPage() {
     <div>
       <section className="bg-blueprint">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[--color-primary]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)]">
             How we work
           </p>
-          <h1 className="font-display text-5xl tracking-tight text-[--color-brand-black] sm:text-6xl">
+          <h1 className="font-display text-5xl tracking-tight text-[var(--color-brand-black)] sm:text-6xl">
             Remodeling, decoded.
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-[--color-brand-darkgray]">
+          <p className="mt-4 max-w-2xl text-lg text-[var(--color-brand-darkgray)]">
             Anxious about remodels? You should be — most of them are run badly. Here&apos;s
             exactly how we run ours, in six steps you can hold us to.
           </p>
@@ -65,24 +65,24 @@ export default function ProcessPage() {
           {steps.map(({ icon: Icon, title, body }, i) => (
             <li
               key={title}
-              className="flex gap-5 rounded-xl border border-[--color-border] bg-white p-6 shadow-sm"
+              className="flex gap-5 rounded-xl border border-[var(--color-border)] bg-white p-6 shadow-sm"
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[--color-secondary] text-[--color-primary]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-secondary)] text-[var(--color-primary)]">
                 <Icon className="h-6 w-6" />
               </div>
               <div>
                 <p className="font-display text-xl">
-                  <span className="text-[--color-brand-lightgray]">0{i + 1}</span>{" "}
+                  <span className="text-[var(--color-brand-lightgray)]">0{i + 1}</span>{" "}
                   {title}
                 </p>
-                <p className="mt-2 text-[--color-brand-darkgray]">{body}</p>
+                <p className="mt-2 text-[var(--color-brand-darkgray)]">{body}</p>
               </div>
             </li>
           ))}
         </ol>
       </section>
 
-      <section className="bg-[--color-primary] text-white">
+      <section className="bg-[var(--color-primary)] text-white">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:flex-row sm:items-center sm:px-6 lg:px-8">
           <div>
             <h2 className="font-display text-3xl tracking-tight sm:text-4xl">
