@@ -71,33 +71,32 @@ export function SiteFooter() {
           </h4>
           <ul className="space-y-2 text-sm text-white/70">
             <li>
-              <a href="tel:+15135550123" className="hover:text-white">
-                (513) 555-0123
+              <a href="tel:+15135326692" className="hover:text-white">
+                513-532-6692
               </a>
             </li>
             <li>
-              <a href="mailto:hello@codex.homes" className="hover:text-white">
-                hello@codex.homes
+              <a href="mailto:zachwest@codex.homes" className="hover:text-white">
+                zachwest@codex.homes
               </a>
+            </li>
+            <li className="pt-1 leading-relaxed not-italic">
+              <p className="text-white/50">Main Office</p>
+              <address className="not-italic">
+                8277 Jakaro Dr
+                <br />
+                Cincinnati, OH 45255
+              </address>
             </li>
             <li>Serving Greater Cincinnati &amp; NKY</li>
             <li className="pt-2">
               <a
-                href="https://www.instagram.com/codex_homes/"
+                href="https://www.instagram.com/codexhomes"
                 target="_blank"
                 rel="noreferrer noopener"
                 className="hover:text-white"
               >
                 Instagram
-              </a>
-              {" · "}
-              <a
-                href="https://www.houzz.com/professionals/general-contractors/codex-homes-pfvwus-pf~1704075941"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="hover:text-white"
-              >
-                Houzz
               </a>
             </li>
           </ul>
