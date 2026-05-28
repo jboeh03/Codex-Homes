@@ -153,7 +153,7 @@ export default function HomePage() {
                 sizes="(max-width: 1024px) 50vw, 26vw"
               />
             </Parallax>
-            <div className="absolute right-2 top-6 z-10 hidden rounded-lg border border-[var(--color-brass-soft)]/25 bg-[#15110c]/40 p-5 backdrop-blur-md sm:block">
+            <div className="absolute right-2 top-6 z-10 hidden rounded-lg border border-[var(--color-brass-soft)]/25 bg-[#101820]/40 p-5 backdrop-blur-md sm:block">
               {[
                 ["Cabinetry", "Rift-cut White Oak"],
                 ["Stone", "Calacatta Viola"],
@@ -207,7 +207,7 @@ export default function HomePage() {
               <Link
                 href="/designer"
                 data-cursor
-                className="inline-block rounded-full bg-[#f6f0e6] px-8 py-4 text-[0.72rem] uppercase tracking-[0.22em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brass-soft)]"
+                className="inline-block rounded-full bg-[#ffffff] px-8 py-4 text-[0.72rem] uppercase tracking-[0.22em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brass-soft)]"
               >
                 Enter the studio
               </Link>
@@ -334,7 +334,7 @@ export default function HomePage() {
             className="scale-110 object-cover opacity-35"
           />
         </Parallax>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#15110c]/90 to-[#15110c]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101820]/90 to-[#101820]/40" />
         <div className="relative mx-auto flex min-h-[80svh] max-w-[1400px] flex-col items-center justify-center px-5 py-32 text-center sm:px-8 lg:px-12">
           <Reveal as="p" className="eyebrow mb-8 text-[var(--color-brass-soft)]">
             By private consultation
@@ -351,14 +351,14 @@ export default function HomePage() {
             <Link
               href="/get-estimate"
               data-cursor
-              className="rounded-full bg-[#f6f0e6] px-9 py-4 text-[0.72rem] uppercase tracking-[0.22em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brass-soft)]"
+              className="rounded-full bg-[#ffffff] px-9 py-4 text-[0.72rem] uppercase tracking-[0.22em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brass-soft)]"
             >
               Request a consultation
             </Link>
             <Link
               href="/designer"
               data-cursor
-              className="rounded-full border border-[#f6f0e6]/40 px-9 py-4 text-[0.72rem] uppercase tracking-[0.22em] text-[#f6f0e6] transition-colors hover:border-[var(--color-brass-soft)] hover:text-[var(--color-brass-soft)]"
+              className="rounded-full border border-[#ffffff]/40 px-9 py-4 text-[0.72rem] uppercase tracking-[0.22em] text-[#ffffff] transition-colors hover:border-[var(--color-brass-soft)] hover:text-[var(--color-brass-soft)]"
             >
               Visualize your home
             </Link>

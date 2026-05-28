@@ -1,62 +1,58 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Codex Homes — Atelier
-   A warm, editorial luxury system for high-end residential
-   building & remodeling.
+   Codex Homes — Editorial luxury, brand palette.
+   Layout, typography, and motion follow the atelier direction;
+   colors stay strictly on the brand guide (white ground, navy
+   foreground, brand blues + grays).
 
-   Canvas : warm bone / alabaster
-   Ink    : espresso black
-   Accent : antique brass
-   Neutral: warm stone & taupe
-   Display: Fraunces (light, high-contrast editorial serif)
-   UI/Body: Jost (refined geometric sans)
+   Sourced from /brand/Codex_Homes_Brandsheet2021.pdf
    ============================================================ */
 
 @theme inline {
-  /* ---- Luxury palette (named) ---- */
-  --color-bone: #f3ede3;
-  --color-alabaster: #f8f3ea;
-  --color-cream: #ede3d1;
-  --color-espresso: #15110c;
-  --color-espresso-soft: #241b12;
-  --color-brass: #9b7b45;
-  --color-brass-soft: #c0a06a;
-  --color-stone: #6f6453;
-  --color-stone-light: #b7ab95;
+  /* ---- Brand palette (exact, from the brand sheet) ---- */
+  --color-brand-black: #101820;
+  --color-brand-paleblue: #c6dae7;
+  --color-brand-lightblue: #5e8ab4;
+  --color-brand-mediumblue: #326295;
+  --color-brand-darkblue: #003a70;
+  --color-brand-lightgray: #98a4ae;
+  --color-brand-darkgray: #5b6770;
 
-  /* ---- Legacy brand token names, remapped to the warm palette
-          so every existing page inherits the atelier look ---- */
-  --color-brand-black: #15110c;
-  --color-brand-paleblue: #ede3d1; /* cream — light accent on dark grounds */
-  --color-brand-lightblue: #c0a06a; /* soft brass */
-  --color-brand-mediumblue: #b08b4f; /* brass */
-  --color-brand-darkblue: #9b7b45; /* primary brass accent */
-  --color-brand-lightgray: #b7ab95; /* light stone */
-  --color-brand-darkgray: #6f6453; /* warm taupe (muted text) */
+  /* ---- Luxury-semantic aliases, all mapped to the brand palette
+          so the editorial code reads naturally ---- */
+  --color-bone: #ffffff;          /* white canvas per brand */
+  --color-alabaster: #f4f6f8;     /* cool, near-white blue-gray */
+  --color-cream: #c6dae7;         /* paleblue — soft light on dark */
+  --color-espresso: #101820;      /* brand-black */
+  --color-espresso-soft: #003a70; /* brand-darkblue */
+  --color-brass: #003a70;         /* primary accent → brand-darkblue */
+  --color-brass-soft: #c6dae7;    /* light accent variant → paleblue */
+  --color-stone: #5b6770;         /* muted text → brand-darkgray */
+  --color-stone-light: #98a4ae;   /* light gray */
 
   /* Dark section grounds */
-  --color-ink: #15110c;
-  --color-ink-soft: #241b12;
+  --color-ink: #101820;
+  --color-ink-soft: #003a70;
 
   /* ---- Semantic tokens ---- */
-  --color-background: #f3ede3;
-  --color-foreground: #1b1611;
-  --color-muted: #e9e0d0;
-  --color-muted-foreground: #6f6453;
-  --color-border: #ded3c1;
-  --color-input: #ded3c1;
-  --color-ring: #9b7b45;
-  --color-primary: #9b7b45;
-  --color-primary-foreground: #fbf7ef;
-  --color-secondary: #ede3d1;
-  --color-secondary-foreground: #1b1611;
-  --color-accent: #b08b4f;
-  --color-accent-foreground: #fbf7ef;
-  --color-destructive: #9a3412;
-  --color-destructive-foreground: #fbf7ef;
-  --color-card: #f8f3ea;
-  --color-card-foreground: #1b1611;
+  --color-background: #ffffff;
+  --color-foreground: #101820;
+  --color-muted: #f4f6f8;
+  --color-muted-foreground: #5b6770;
+  --color-border: #e5e9ec;
+  --color-input: #e5e9ec;
+  --color-ring: #003a70;
+  --color-primary: #003a70;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #c6dae7;
+  --color-secondary-foreground: #003a70;
+  --color-accent: #5e8ab4;
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #b91c1c;
+  --color-destructive-foreground: #ffffff;
+  --color-card: #ffffff;
+  --color-card-foreground: #101820;
 
   /* ---- Typography ---- */
   --font-sans: var(--font-jost), ui-sans-serif, system-ui, -apple-system,
@@ -72,8 +68,8 @@
 }
 
 :root {
-  --background: #f3ede3;
-  --foreground: #1b1611;
+  --background: #ffffff;
+  --foreground: #101820;
 }
 
 html,
@@ -85,14 +81,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Whole-page warm paper grain for tactile depth */
+/* Whole-page film grain for subtle editorial depth */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.028;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -110,8 +106,8 @@ html.lenis body {
 }
 
 ::selection {
-  background: var(--color-brass);
-  color: #fbf7ef;
+  background: var(--color-brand-darkblue);
+  color: #ffffff;
 }
 
 /* ---------- Typography ---------- */
@@ -152,29 +148,30 @@ html.lenis body {
   text-transform: uppercase;
 }
 
-/* ---------- Atelier flourishes ---------- */
+/* ---------- Atelier flourishes (brand-tinted) ---------- */
 
-/* Thin brass rule that fades at both ends */
+/* Thin rule that fades at both ends — inherits the surrounding color */
 .gold-rule {
   height: 1px;
   width: 100%;
   background: linear-gradient(
     to right,
     transparent,
-    var(--color-brass) 18%,
-    var(--color-brass) 82%,
+    currentColor 18%,
+    currentColor 82%,
     transparent
   );
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
-/* Small brass tick used beside eyebrows / index numbers */
+/* Small tick used beside eyebrows / index numbers — inherits color */
 .brass-tick {
   display: inline-block;
   width: 1.75rem;
   height: 1px;
-  background: var(--color-brass);
+  background: currentColor;
   vertical-align: middle;
+  opacity: 0.85;
 }
 
 /* Hairline frame for editorial bordered blocks */
@@ -196,13 +193,25 @@ html.lenis body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Soft warm radial glow for dark grounds */
+/* Soft brand-blue radial glow for dark grounds */
 .atelier-glow {
   background-image: radial-gradient(
     60% 60% at 50% 0%,
-    rgba(155, 123, 69, 0.14),
+    rgba(94, 138, 180, 0.16),
     transparent 70%
   );
+}
+
+/* Subtle blueprint texture, retained for legacy sections */
+.bg-blueprint {
+  background-color: #f4f8fb;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 58, 112, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 58, 112, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 /* ---------- Custom cursor ---------- */
@@ -229,14 +238,13 @@ html.lenis body {
     width: 5px;
     height: 5px;
     margin: -2.5px 0 0 -2.5px;
-    background: var(--color-brass);
-    mix-blend-mode: normal;
+    background: var(--color-brand-darkblue);
   }
   .cursor-ring {
     width: 42px;
     height: 42px;
     margin: -21px 0 0 -21px;
-    border: 1px solid rgba(155, 123, 69, 0.7);
+    border: 1px solid rgba(0, 58, 112, 0.55);
     mix-blend-mode: difference;
     transition: width 0.3s ease, height 0.3s ease, margin 0.3s ease,
       opacity 0.3s ease, background-color 0.3s ease;
@@ -245,7 +253,7 @@ html.lenis body {
     width: 66px;
     height: 66px;
     margin: -33px 0 0 -33px;
-    background: rgba(155, 123, 69, 0.12);
+    background: rgba(0, 58, 112, 0.12);
   }
 }
 

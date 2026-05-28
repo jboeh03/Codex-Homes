@@ -84,11 +84,11 @@ export function Hero() {
           sizes="100vw"
           className="object-cover"
         />
-        {/* Warm espresso wash — strong, even scrim so the cream serif pops
-            and the photo recedes into a moody backdrop */}
-        <div className="absolute inset-0 bg-[#15110c]/55" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#15110c] via-[#15110c]/70 to-[#15110c]/35" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#15110c]/70 via-transparent to-transparent" />
+        {/* Brand-black scrim — even and strong so the serif headline
+            pops and the photo recedes into a moody backdrop */}
+        <div className="absolute inset-0 bg-[#101820]/55" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101820] via-[#101820]/70 to-[#101820]/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#101820]/70 via-transparent to-transparent" />
       </div>
 
       <div
@@ -106,7 +106,7 @@ export function Hero() {
           </span>
         </p>
 
-        <h1 className="display-hero max-w-5xl text-[clamp(2.8rem,9vw,8.5rem)] text-[#f6f0e6]">
+        <h1 className="display-hero max-w-5xl text-[clamp(2.8rem,9vw,8.5rem)] text-[#ffffff]">
           <span className="hero-line block overflow-hidden pb-[0.08em]">
             <span className="hero-line-inner hero-line-1 block">
               The art of the
@@ -124,7 +124,7 @@ export function Hero() {
           className="mt-9 flex max-w-2xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
           style={{ opacity: 0 }}
         >
-          <p className="max-w-md text-base leading-relaxed text-[#f6f0e6]/75 sm:text-lg">
+          <p className="max-w-md text-base leading-relaxed text-[#ffffff]/75 sm:text-lg">
             Bespoke kitchens, baths, and whole-home renovations for Greater
             Cincinnati — designed with restraint, built by master craftsmen, and
             priced with absolute clarity.
@@ -133,14 +133,14 @@ export function Hero() {
             <Link
               href="/get-estimate"
               data-cursor
-              className="rounded-full bg-[#f6f0e6] px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.22em] text-[var(--color-ink)] transition-colors duration-300 hover:bg-[var(--color-brass-soft)]"
+              className="rounded-full bg-[#ffffff] px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.22em] text-[var(--color-ink)] transition-colors duration-300 hover:bg-[var(--color-brass-soft)]"
             >
               Request a consultation
             </Link>
             <Link
               href="/portfolio"
               data-cursor
-              className="rounded-full border border-[#f6f0e6]/40 px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.22em] text-[#f6f0e6] transition-colors duration-300 hover:border-[var(--color-brass-soft)] hover:text-[var(--color-brass-soft)]"
+              className="rounded-full border border-[#ffffff]/40 px-7 py-3.5 text-center text-[0.72rem] uppercase tracking-[0.22em] text-[#ffffff] transition-colors duration-300 hover:border-[var(--color-brass-soft)] hover:text-[var(--color-brass-soft)]"
             >
               View the portfolio
             </Link>
@@ -154,10 +154,10 @@ export function Hero() {
           className="flex flex-col items-center gap-3"
           style={{ opacity: 0 }}
         >
-          <span className="text-[0.62rem] uppercase tracking-[0.3em] text-[#f6f0e6]/50">
+          <span className="text-[0.62rem] uppercase tracking-[0.3em] text-[#ffffff]/50">
             Scroll
           </span>
-          <span className="flex h-10 w-5 justify-center rounded-full border border-[#f6f0e6]/30 pt-2">
+          <span className="flex h-10 w-5 justify-center rounded-full border border-[#ffffff]/30 pt-2">
             <span className="scroll-cue-dot h-1.5 w-1.5 rounded-full bg-[var(--color-brass-soft)]" />
           </span>
         </div>
