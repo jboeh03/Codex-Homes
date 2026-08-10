@@ -103,7 +103,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
               Like the look? Try it in your room.
             </h2>
             <p className="mt-4 max-w-md text-white/65">
-              Use the Designer Tool to test these finishes in your own space — and
+              Use the Design Studio to test these finishes in your own space — and
               see the range.
             </p>
           </Reveal>
@@ -113,7 +113,7 @@ export default async function PortfolioProjectPage({ params }: PageProps) {
               data-cursor
               className="inline-block rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
             >
-              Open the Designer Tool
+              Open the Design Studio
             </Link>
           </Reveal>
         </div>

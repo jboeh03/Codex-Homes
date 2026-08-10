@@ -226,7 +226,7 @@ export default async function PortfolioPage() {
               data-cursor
               className="rounded-full border border-white/40 px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10"
             >
-              Try the Designer
+              Try the Design Studio
             </Link>
           </Reveal>
         </div>

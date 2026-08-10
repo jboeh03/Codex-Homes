@@ -18,7 +18,7 @@ const steps = [
   {
     icon: Sparkles,
     title: "Designer + selections",
-    body: "Use our Designer Tool to pre-pick finishes (or come into our Cincinnati showroom). We refine into a full selections list with allowances we know hold.",
+    body: "Use our Design Studio to pre-pick finishes (or come into our Cincinnati showroom). We refine into a full selections list with allowances we know hold.",
   },
   {
     icon: FileText,

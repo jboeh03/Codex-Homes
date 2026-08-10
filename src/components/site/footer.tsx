@@ -50,7 +50,7 @@ export function SiteFooter() {
             {[
               ["Portfolio", "/portfolio"],
               ["Process", "/process"],
-              ["Designer Tool", "/designer"],
+              ["Design Studio", "/designer"],
               ["About", "/about"],
               ["Blog", "/blog"],
               ["Service Areas", "/service-areas"],

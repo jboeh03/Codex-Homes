@@ -84,7 +84,7 @@ function CtaBand() {
             Not sure where to start?
           </h2>
           <p className="mt-4 max-w-md text-white/65">
-            Try the Designer Tool, or book a free in-home estimate and we&apos;ll
+            Try the Design Studio, or book a free in-home estimate and we&apos;ll
             walk the scope with you.
           </p>
         </Reveal>
@@ -94,7 +94,7 @@ function CtaBand() {
             data-cursor
             className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
           >
-            Open the Designer
+            Enter the Design Studio
           </Link>
           <Link
             href="/get-estimate"

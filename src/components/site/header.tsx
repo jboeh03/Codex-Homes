@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 const nav = [
   { href: "/services", label: "Services" },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/designer", label: "Designer" },
+  { href: "/designer", label: "Design Studio" },
   { href: "/process", label: "Process" },
   { href: "/about", label: "About" },
 ];
@@ -77,14 +77,14 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-6 md:flex">
           <a
-            href="tel:+15135550123"
+            href="tel:+15135326692"
             data-cursor
             className={cn(
               "text-[0.8rem] tracking-wide transition-colors",
               solid ? "text-[var(--color-foreground)]/70 hover:text-[var(--color-foreground)]" : "text-white/70 hover:text-white"
             )}
           >
-            (513) 555-0123
+            (513) 532-6692
           </a>
           <Link
             href="/get-estimate"
@@ -133,7 +133,7 @@ export function SiteHeader() {
           ))}
           <div className="flex gap-3 pt-3">
             <a
-              href="tel:+15135550123"
+              href="tel:+15135326692"
               className="flex-1 rounded-full border border-[var(--color-border)] py-3 text-center text-xs uppercase tracking-[0.18em]"
             >
               Call

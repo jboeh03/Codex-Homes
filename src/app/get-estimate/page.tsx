@@ -27,7 +27,7 @@ export default function GetEstimatePage() {
             <li>· One project lead from intake to punch list</li>
             <li>· Written, fixed-scope quote — no surprises</li>
             <li>· Cincinnati owned, BBB accredited, fully insured</li>
-            <li>· Prefer to text? (513) 555-0123</li>
+            <li>· Prefer to text? (513) 532-6692</li>
           </ul>
         </div>
         <div className="lg:col-span-3">

@@ -1,52 +1,38 @@
 import type { Metadata } from "next";
-import { DesignerTool } from "@/components/designer/designer-tool";
+import { Studio } from "@/components/studio/studio";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { fallbackMaterials } from "@/lib/studio/fallback-materials";
 import type { MaterialRow } from "@/lib/db.types";
 
 export const metadata: Metadata = {
-  title: "Designer Tool",
+  title: "Design Studio",
   description:
-    "Pick cabinets, counters, tile, and fixtures from the suppliers we actually use. See a real Cincinnati installed price range update as you choose.",
+    "Photograph your kitchen or bath, restyle it in real materials, and see an honest Cincinnati installed price range — before anyone visits your home.",
 };
 
 export const dynamic = "force-dynamic";
 
 export default async function DesignerPage() {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("materials")
-    .select("*")
-    .eq("is_active", true)
-    .order("category", { ascending: true })
-    .order("sort_order", { ascending: true });
-
-  const materials: MaterialRow[] = error ? [] : (data ?? []);
+  let materials: MaterialRow[] = [];
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase
+      .from("materials")
+      .select("*")
+      .eq("is_active", true)
+      .order("category", { ascending: true })
+      .order("sort_order", { ascending: true });
+    materials = data ?? [];
+  } catch {
+    // Missing config or unreachable project — the built-in catalog covers it.
+  }
+  if (materials.length === 0) {
+    materials = fallbackMaterials;
+  }
 
   return (
-    <div className="bg-blueprint">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)]">
-            Designer Tool
-          </p>
-          <h1 className="font-display text-4xl tracking-tight text-[var(--color-brand-black)] sm:text-5xl">
-            Design your remodel. See a real price range.
-          </h1>
-          <p className="mt-3 max-w-2xl text-[var(--color-brand-darkgray)]">
-            Pick materials from the suppliers we actually buy from in Cincinnati. The price
-            range updates as you change selections and room dimensions. Save it and bring it
-            to your free in-home consult.
-          </p>
-        </div>
-
-        {error && (
-          <div className="mb-6 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-            Couldn&apos;t load the materials catalog: {error.message}
-          </div>
-        )}
-
-        <DesignerTool materials={materials} />
-      </div>
+    <div className="mx-auto max-w-6xl px-5 pb-20 pt-28 sm:px-8 lg:pt-36">
+      <Studio materials={materials} />
     </div>
   );
 }

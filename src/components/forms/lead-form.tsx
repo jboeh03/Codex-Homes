@@ -45,7 +45,15 @@ const stepLabels = ["Project", "Scope", "Timeline", "Budget", "Contact"];
 
 export function LeadForm({ source = "estimate-page" }: { source?: string }) {
   const [step, setStep] = useState<Step>(0);
-  const [data, setData] = useState<FormState>(initial);
+  const searchParamsInit = useSearchParams();
+  const [data, setData] = useState<FormState>(() => {
+    // Arriving from the Design Studio preselects the project type.
+    const project = searchParamsInit.get("project");
+    if (project && (projectTypes as readonly string[]).includes(project)) {
+      return { ...initial, projectType: project as FormState["projectType"] };
+    }
+    return initial;
+  });
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);

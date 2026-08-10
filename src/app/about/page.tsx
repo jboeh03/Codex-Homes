@@ -75,7 +75,7 @@ export default function AboutPage() {
               comes next — every day of the project.
             </Reveal>
             <Reveal as="p" delay={0.1} className="mt-4 leading-relaxed text-[var(--color-brand-darkgray)]">
-              That&apos;s why we publish price ranges. Why we put a Designer Tool
+              That&apos;s why we publish price ranges. Why we put a Design Studio
               on our home page. Why every project gets a single lead, a daily
               photo log, and a written schedule. We&apos;d rather lose the job at
               the consult than surprise you at the invoice.
@@ -114,7 +114,7 @@ export default function AboutPage() {
               Come see what a Codex remodel feels like.
             </h2>
             <p className="mt-4 max-w-md text-white/65">
-              Free in-home consult. Try the Designer Tool first if you like.
+              Free in-home consult. Try the Design Studio first if you like.
             </p>
           </Reveal>
           <Reveal delay={0.08} className="flex shrink-0 flex-col gap-3 sm:flex-row">
@@ -123,7 +123,7 @@ export default function AboutPage() {
               data-cursor
               className="rounded-full bg-white px-8 py-4 text-center text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-brand-paleblue)]"
             >
-              Open the Designer
+              Enter the Design Studio
             </Link>
             <Link
               href="/get-estimate"

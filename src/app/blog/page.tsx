@@ -19,12 +19,12 @@ export default function BlogPage() {
         </h1>
         <p className="mt-4 text-lg text-[var(--color-brand-darkgray)]">
           We&apos;re writing about Cincinnati-specific remodeling — basement moisture, 1920s
-          plaster, what cabinetry actually costs in 2025 — and we&apos;ll publish it here
+          plaster, what cabinetry actually costs in 2026 — and we&apos;ll publish it here
           shortly.
         </p>
         <div className="mt-8 flex justify-center">
           <Button asChild size="lg">
-            <Link href="/designer">Try the Designer Tool in the meantime</Link>
+            <Link href="/designer">Try the Design Studio in the meantime</Link>
           </Button>
         </div>
       </div>
