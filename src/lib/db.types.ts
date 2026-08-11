@@ -17,8 +17,11 @@ export type Database = {
           created_at: string
           error: string
           id: string
+          output_path: string
           output_url: string
           prompt: string
+          provider: string
+          render_key: string
           replicate_id: string
           selections_hash: string
           session_id: string
@@ -30,8 +33,11 @@ export type Database = {
           created_at?: string
           error?: string
           id?: string
+          output_path?: string
           output_url?: string
           prompt?: string
+          provider?: string
+          render_key?: string
           replicate_id?: string
           selections_hash: string
           session_id: string
@@ -43,8 +49,11 @@ export type Database = {
           created_at?: string
           error?: string
           id?: string
+          output_path?: string
           output_url?: string
           prompt?: string
+          provider?: string
+          render_key?: string
           replicate_id?: string
           selections_hash?: string
           session_id?: string
@@ -64,33 +73,39 @@ export type Database = {
       }
       designer_sessions: {
         Row: {
+          client_token_hash: string
           created_at: string
           dimensions: Json
           estimate: Json
           id: string
           notes: string
+          photo_paths: string[]
           photo_urls: string[]
           room_type: Database["public"]["Enums"]["room_type"]
           selections: Json
           updated_at: string
         }
         Insert: {
+          client_token_hash?: string
           created_at?: string
           dimensions?: Json
           estimate?: Json
           id?: string
           notes?: string
+          photo_paths?: string[]
           photo_urls?: string[]
           room_type?: Database["public"]["Enums"]["room_type"]
           selections?: Json
           updated_at?: string
         }
         Update: {
+          client_token_hash?: string
           created_at?: string
           dimensions?: Json
           estimate?: Json
           id?: string
           notes?: string
+          photo_paths?: string[]
           photo_urls?: string[]
           room_type?: Database["public"]["Enums"]["room_type"]
           selections?: Json
@@ -159,7 +174,15 @@ export type Database = {
           utm?: Json
           zip?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leads_designer_session_id_fkey"
+            columns: ["designer_session_id"]
+            isOneToOne: false
+            referencedRelation: "designer_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       materials: {
         Row: {
@@ -172,6 +195,7 @@ export type Database = {
           install_cost_per_unit: number
           is_active: boolean
           name: string
+          room_types: Database["public"]["Enums"]["room_type"][]
           sku: string
           sort_order: number
           supplier: string
@@ -189,6 +213,7 @@ export type Database = {
           install_cost_per_unit?: number
           is_active?: boolean
           name: string
+          room_types?: Database["public"]["Enums"]["room_type"][]
           sku?: string
           sort_order?: number
           supplier?: string
@@ -206,6 +231,7 @@ export type Database = {
           install_cost_per_unit?: number
           is_active?: boolean
           name?: string
+          room_types?: Database["public"]["Enums"]["room_type"][]
           sku?: string
           sort_order?: number
           supplier?: string

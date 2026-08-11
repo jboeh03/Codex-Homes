@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import type { DesignerSessionUpdate } from "@/lib/db.types";
 import {
   createSupabaseAdminClient,
   isSupabaseAdminConfigured,
@@ -127,11 +128,11 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     );
   }
 
-  const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  const patch: DesignerSessionUpdate = { updated_at: new Date().toISOString() };
   if (parsed.data.roomType !== undefined) patch.room_type = parsed.data.roomType;
   if (parsed.data.selections !== undefined) patch.selections = parsed.data.selections;
   if (parsed.data.dimensions !== undefined) patch.dimensions = parsed.data.dimensions;
-  if (parsed.data.estimate !== undefined) patch.estimate = parsed.data.estimate;
+  if (parsed.data.estimate !== undefined) patch.estimate = parsed.data.estimate as DesignerSessionUpdate["estimate"];
   if (parsed.data.notes !== undefined) patch.notes = parsed.data.notes;
 
   const { error } = await supabase
