@@ -28,8 +28,10 @@ screenshot.
 1. **No session on a bounce.** Fresh visit to /designer (clear localStorage
    first via `browser_evaluate`): confirm via `browser_network_requests` that
    NO `POST /api/studio/sessions` fires before the user makes an edit.
-2. **Happy path.** Upload `public/studio/sample-kitchen.jpg` (or click "Try a
-   sample room") → pick Kitchen → select 2+ materials → estimate range > $0 →
+2. **Happy path.** Upload `public/studio/sample-kitchen.jpg` (or use the
+   "Try a sample kitchen / bath" links) → pick Kitchen → select 2+ materials
+   (also verify the Modern/Classic/Warm preset chips fill selections) →
+   estimate range > $0 →
    generate preview → before/after slider appears with the "AI concept" badge.
 3. **Restore on reload.** Reload the page. The design must come back —
    photo thumbnail, selections, render — with the "Welcome back" notice.

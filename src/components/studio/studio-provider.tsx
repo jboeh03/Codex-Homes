@@ -94,6 +94,7 @@ type Action =
   | { type: "SET_STEP"; step: StudioStep }
   | { type: "SET_ROOM"; roomType: RoomType }
   | { type: "SET_SELECTION"; category: MaterialCategory; materialId: string | null }
+  | { type: "APPLY_SELECTIONS"; selections: Selections }
   | { type: "SET_PRESET"; preset: SizePreset }
   | { type: "SET_DIMENSIONS"; dimensions: RoomDimensions }
   | { type: "SESSION_READY"; sessionId: string; token: string }
@@ -129,6 +130,8 @@ function reducer(state: StudioState, action: Action): StudioState {
       else delete selections[action.category];
       return { ...state, selections };
     }
+    case "APPLY_SELECTIONS":
+      return { ...state, selections: { ...state.selections, ...action.selections } };
     case "SET_PRESET":
       return { ...state, sizePreset: action.preset, customDimensions: null };
     case "SET_DIMENSIONS":

@@ -24,7 +24,7 @@ export function SiteFooter() {
           <ul className="space-y-2 text-sm">
             {[
               ["Kitchen Renovation", "/services/kitchen"],
-              ["Bath &amp; Spa", "/services/bathroom"],
+              ["Bath & Spa", "/services/bathroom"],
               ["Lower Levels", "/services/basement"],
               ["Whole-Home Renovation", "/services/whole-home"],
               ["Additions", "/services/additions"],
@@ -35,8 +35,9 @@ export function SiteFooter() {
                 <Link
                   href={href}
                   className="text-white/70 transition-colors hover:text-white"
-                  dangerouslySetInnerHTML={{ __html: label }}
-                />
+                >
+                  {label}
+                </Link>
               </li>
             ))}
           </ul>

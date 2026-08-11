@@ -71,12 +71,12 @@ export function PhotoStep() {
     Array.from(list).forEach((file) => void handleFile(file));
   }
 
-  async function addSamplePhoto() {
+  async function addSamplePhoto(room: "kitchen" | "bathroom") {
     const key = `u${keyRef.current++}`;
-    const which = "/studio/sample-kitchen.jpg";
+    const which = `/studio/sample-${room}.jpg`;
     setItems((prev) => [
       ...prev,
-      { key, filename: "Sample kitchen", previewUrl: which, status: "uploading" },
+      { key, filename: `Sample ${room}`, previewUrl: which, status: "uploading" },
     ]);
     try {
       const res = await fetch(which);
@@ -87,7 +87,7 @@ export function PhotoStep() {
         patchItem(key, { status: "error", error: "Uploads are offline right now" });
         return;
       }
-      const { path, url } = await uploadPhoto(creds.sessionId, creds.token, blob, "sample-kitchen.jpg");
+      const { path, url } = await uploadPhoto(creds.sessionId, creds.token, blob, `sample-${room}.jpg`);
       dispatch({ type: "PHOTO_ADDED", photo: { path, url: url || which } });
       patchItem(key, { status: "done" });
     } catch {
@@ -132,14 +132,26 @@ export function PhotoStep() {
             <ImagePlus className="h-5 w-5" aria-hidden />
             Choose from library
           </Button>
-          <button
-            type="button"
-            data-cursor
-            onClick={() => void addSamplePhoto()}
-            className="link-underline text-sm text-[var(--color-cream)]/70"
-          >
-            Try a sample room
-          </button>
+          <span className="text-sm text-[var(--color-cream)]/70">
+            Try a sample{" "}
+            <button
+              type="button"
+              data-cursor
+              onClick={() => void addSamplePhoto("kitchen")}
+              className="link-underline"
+            >
+              kitchen
+            </button>{" "}
+            or{" "}
+            <button
+              type="button"
+              data-cursor
+              onClick={() => void addSamplePhoto("bathroom")}
+              className="link-underline"
+            >
+              bath
+            </button>
+          </span>
         </div>
 
         <input
